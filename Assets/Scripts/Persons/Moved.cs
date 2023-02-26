@@ -31,16 +31,16 @@ public class Moved : MonoBehaviour
         }
     }
     [SerializeField, Min(1f)] private float _runMultiplier = 2f;
-    public float SpeedBafs
+    public float SpeedBuffs
     {
-        get => _speedBafs;
+        get => _speedBuffs;
         set
         {
-            _speedBafs = value;
+            _speedBuffs = value;
             SetCurrentSpeed();
         }
     }
-    private float _speedBafs = 1f;
+    private float _speedBuffs = 1f;
     public Vector2 VectorVelocity { get; private set; }
     public float CurrentSpeed { get; private set; }
     private Rigidbody2D _rigidBody;
@@ -76,7 +76,7 @@ public class Moved : MonoBehaviour
         _animator.SetFloat("Angel", _angle);
         _animator.SetFloat("Speed", _moveSpeed * CurrentSpeed);
     }
-    public void SetCurrentSpeed() => CurrentSpeed = _currentMultiplier * _baseSpeed * _speedBafs;
+    public void SetCurrentSpeed() => CurrentSpeed = _currentMultiplier * _baseSpeed * _speedBuffs;
     public void SetRun(bool run)
     {
         _currentMultiplier = run ? _runMultiplier : 1;

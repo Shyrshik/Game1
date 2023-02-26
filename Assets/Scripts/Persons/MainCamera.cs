@@ -6,7 +6,7 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
     [SerializeField] private GameObject _trackingObject;
-    [SerializeField] private Vector3 _positionСorrect = new(0f, -10f, -6);
+    [SerializeField] private Vector3 _positionCorrect = new(0f, -10f, -6);
     [SerializeField] private float _maxDistanceToTrackingObject = -1;
 
     private Rigidbody2D _rigidBody2D;
@@ -18,7 +18,7 @@ public class MainCamera : MonoBehaviour
     private void Awake()
     {
         SetTrackingObject();
-        _correct = _positionСorrect;
+        _correct = _positionCorrect;
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _move = GetComponent<Moved>();
         if (_maxDistanceToTrackingObject < 0f)
@@ -41,7 +41,7 @@ public class MainCamera : MonoBehaviour
         _trackingObject = _trackingObject ? _trackingObject : gameObject;
         _trackingObjectMove = _trackingObject.GetComponent<Moved>();
         _trackingObjectRigidBody2D = _trackingObject.GetComponent<Rigidbody2D>();
-        transform.position = _positionСorrect + _trackingObject.transform.position;
+        transform.position = _positionCorrect + _trackingObject.transform.position;
 
 
     }

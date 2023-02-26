@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 [CreateAssetMenu(fileName = "SwordProperties", menuName = "MySO/Weapon/NewSwordProperties", order = 0)]
 public class SwordSettings : WeaponSettings

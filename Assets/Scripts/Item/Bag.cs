@@ -6,7 +6,7 @@ public class Bag : MonoBehaviour
     [SerializeField] private GameObject Inventory;
     private Canvas _canvas;
     private Slot[] _slots;
-    private InputСontroller _inputСontroller;
+    private InputСontroller _inputController;
     private bool _open = true;
     //private int _itemAmount = 6;
 
@@ -16,8 +16,8 @@ public class Bag : MonoBehaviour
         //_slots= new Item[_itemAmount];
         _slots= Inventory.GetComponentsInChildren<Slot>();
         _canvas = Inventory.GetComponent<Canvas>();
-        _inputСontroller = new();
-        _inputСontroller.Player.Inventory.performed += context => Open();
+        _inputController = new();
+        _inputController.Player.Inventory.performed += context => Open();
         Open();
     }
     public bool AddItem(Item item)
@@ -71,6 +71,6 @@ public class Bag : MonoBehaviour
             _canvas.enabled = true;
         }
     }
-    private void OnEnable() => _inputСontroller.Enable();
-    private void OnDisable() => _inputСontroller.Disable();
+    private void OnEnable() => _inputController.Enable();
+    private void OnDisable() => _inputController.Disable();
 }
