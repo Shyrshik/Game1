@@ -10,49 +10,49 @@ public class Health : MonoBehaviour
     [SerializeField, Min(1f)] private int _maxHealth = 1;
     [SerializeField] private bool _sendHealthToInterface = false;
 
-    private int _сurrentHealth;
+    private int _currentHealth;
     private SpriteRenderer _spriteRendererThis;
-    private Color _standartColor;
+    private Color _standardColor;
 
     private void Awake()
     {
         _spriteRendererThis = GetComponent<SpriteRenderer>();
-        _standartColor = _spriteRendererThis.color;
-        _сurrentHealth = _maxHealth;
+        _standardColor = _spriteRendererThis.color;
+        _currentHealth = _maxHealth;
     }
     private void Start()
     {
         if (_sendHealthToInterface)
         {
-            EventManager.SendHealthToInterface(_сurrentHealth);
+            EventManager.SendHealthToInterface(_currentHealth);
         }
     }
     public bool ApplyDamage(int damage = 0)
     {
-        if (_сurrentHealth <= 0)
+        if (_currentHealth <= 0)
             return false;
         if (damage < 0)
             damage = 0;
-        _сurrentHealth -= damage;
+        _currentHealth -= damage;
         if (_sendHealthToInterface)
         {
-            EventManager.SendHealthToInterface(_сurrentHealth);
+            EventManager.SendHealthToInterface(_currentHealth);
         }
         if (_spriteRendererThis != null)
         {
             _spriteRendererThis.color = Color.red;
-            Invoke(nameof(ReturnStandartColor), 0.2f);
+            Invoke(nameof(ReturnStandardColor), 0.2f);
         }
-        if (_сurrentHealth <= 0)
+        if (_currentHealth <= 0)
         {
             Death();
         }
         return true;
     }
-    private void ReturnStandartColor()
+    private void ReturnStandardColor()
     {
         if (_spriteRendererThis != null)
-            _spriteRendererThis.color = _standartColor;
+            _spriteRendererThis.color = _standardColor;
     }
     private void Death()
     {

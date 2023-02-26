@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     private Canvas _canvas;
-    private InputСontroller _inputСontroller;
+    private InputСontroller _inputController;
     private bool _open = true;
 
     [SerializeField] private GameObject _player;
@@ -14,8 +14,8 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         _canvas = GetComponent<Canvas>();
-        _inputСontroller = new();
-        _inputСontroller.Player.Inventory.performed += context => Open();
+        _inputController = new();
+        _inputController.Player.Inventory.performed += context => Open();
         Open();
 
         //_slots = _inventorySlots.GetComponentInChildren<Image>();
@@ -35,6 +35,6 @@ public class Inventory : MonoBehaviour
             _canvas.enabled = true;
         }
     }
-    private void OnEnable() => _inputСontroller.Enable();
-    private void OnDisable() => _inputСontroller.Disable();
+    private void OnEnable() => _inputController.Enable();
+    private void OnDisable() => _inputController.Disable();
 }

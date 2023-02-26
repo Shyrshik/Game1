@@ -34,7 +34,7 @@ public class MapBuilder : MonoBehaviour
         }
 
         Vector3Int positionOld;
-        // рандомно набрасываем блоки
+        // Случайно набрасываем блоки
         for (int x = 0; x < 5; x++)
         {
             position = new(0, 0, 0);

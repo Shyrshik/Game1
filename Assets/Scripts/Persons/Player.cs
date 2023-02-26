@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidBody;
     private Vector2 _cameraPosition;
     private Vector2 _moveCamera;
-    private InputСontroller _inputСontroller;
+    private InputСontroller _inputController;
     private Moved _move;
     private Bag _bag;
     /// ////////////////////////////////////
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     /// /////////////////////////////////////////
     private void Awake()
     {
-        _inputСontroller = new();
+        _inputController = new();
         _move = GetComponent<Moved>();
         _rigidBody = GetComponent<Rigidbody2D>();
         _bag = GetComponent<Bag>();
@@ -41,23 +41,23 @@ public class Player : MonoBehaviour
         _firstWeapon = WeaponSpawner.GetRandomWeapon(1);
         _firstWeapon.EnemyLayers = _MyEnemies;
         _firstWeapon.OwnerTransform = transform;
-        _inputСontroller.Player.FirstWeapon.performed += context => ControlFirstWeapon();
+        _inputController.Player.FirstWeapon.performed += context => ControlFirstWeapon();
         ControlFirstWeapon();
         _bag.AddItem(_firstWeapon);
 
         _secondWeapon = WeaponSpawner.GetRandomWeapon(1);
         _secondWeapon.EnemyLayers = _MyEnemies;
         _secondWeapon.OwnerTransform = transform; 
-        _inputСontroller.Player.SecondWeapon.performed += context => ControlSecondWeapon();
+        _inputController.Player.SecondWeapon.performed += context => ControlSecondWeapon();
         ControlSecondWeapon();
         _bag.AddItem(_secondWeapon);
 
-        _inputСontroller.Player.Run.performed += context => Run();
-        _inputСontroller.Player.Run.canceled += context => NotRun();
+        _inputController.Player.Run.performed += context => Run();
+        _inputController.Player.Run.canceled += context => NotRun();
     }
     private void FixedUpdate()
     {
-        _movePlayer = _inputСontroller.Player.Move.ReadValue<Vector2>();
+        _movePlayer = _inputController.Player.Move.ReadValue<Vector2>();
         _move.Move(_movePlayer);                                                //Перемещение Player.
     }
     private void ControlFirstWeapon()
@@ -90,6 +90,6 @@ public class Player : MonoBehaviour
     private void AttackSecondWeapon()=> Invoke(nameof(AttackSecondWeapon), _secondWeapon.Attack());
     private void Run() => _move.SetRun(true);
     private void NotRun() => _move.SetRun(false);
-    private void OnEnable() => _inputСontroller.Enable();
-    private void OnDisable() => _inputСontroller.Disable();
+    private void OnEnable() => _inputController.Enable();
+    private void OnDisable() => _inputController.Disable();
 }

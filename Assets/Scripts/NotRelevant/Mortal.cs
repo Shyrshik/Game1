@@ -4,7 +4,7 @@ using UnityEngine;
 public class Mortal : MonoBehaviour
 {
 
-    public float SpeedBafs { get; set; } = 1f;
+    public float SpeedBuffs { get; set; } = 1f;
 
     [SerializeField] private protected float MaxHealth = 1f;
     [SerializeField] private protected float BaseSpeed = 1;

@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviour
     private bool _gamePause = false;
     private float _timePrefab;
     public float _timeBotSpawn = 1f;
-    private InputСontroller _inputСontroller;
+    private InputСontroller _inputController;
 
     private void Awake()
     {
         // снимаем с паузы и назначаем управление паузой
-        _inputСontroller = new();
-        _inputСontroller.Player.Pause.performed += context => ContinuePlay();
+        _inputController = new();
+        _inputController.Player.Pause.performed += context => ContinuePlay();
         _gamePause = !_gamePause;
         ContinuePlay();
 
@@ -100,6 +100,6 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-    private void OnEnable() => _inputСontroller.Enable();
-    private void OnDisable() => _inputСontroller.Disable();
+    private void OnEnable() => _inputController.Enable();
+    private void OnDisable() => _inputController.Disable();
 }

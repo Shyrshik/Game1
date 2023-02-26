@@ -35,7 +35,7 @@ public abstract class Weapon : Item
     }
     [SerializeField, Min(0.01f)] private float _ticAttack = 0.01f;
     /// <summary>
-    /// -1 = AtackAll
+    /// -1 = AttackAll
     /// </summary>
     [field: SerializeField] public int CountEnemies { get; set; } = 1;
     public LayerMask EnemyLayers { get; set; }
