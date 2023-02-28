@@ -1355,7 +1355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trackingObject: {fileID: 0}
-  "_position\u0421orrect": {x: 0, y: -10, z: -6}
+  _positionCorrect: {x: 0, y: -10, z: -6}
   _maxDistanceToTrackingObject: -1
 --- !u!114 &519420036
 MonoBehaviour:
@@ -2871,6 +2871,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2600090432699824521, guid: d5ca9ad9ace160443be495b674911c31, type: 3}
   m_PrefabInstance: {fileID: 1449949876}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1451740427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1451740428}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1451740428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451740427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1459772748
 GameObject:
   m_ObjectHideFlags: 0
