@@ -8,7 +8,7 @@ public class SwordSettings : WeaponSettings
     }
     public static Sword GetNewWeapon(SwordSettings settings)
     {
-       Sword result = new()
+        return new Sword()
         {
             Icon = settings.Icon,
             Level = settings.Level,
@@ -20,8 +20,5 @@ public class SwordSettings : WeaponSettings
             TicTimeAttack = Random.Range(settings.TicAttackMin, settings.TicAttackMax),
             CountEnemies = Random.Range(settings.CountEnemiesMin, settings.CountEnemiesMax),
         };
-        if (result.BaseMaxDamage < result.BaseMinDamage)
-            result.BaseMaxDamage = result.BaseMinDamage;
-        return result;
     }
 }

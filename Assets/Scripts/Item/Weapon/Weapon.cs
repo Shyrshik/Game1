@@ -13,7 +13,7 @@ public abstract class Weapon : Item
     public int BaseMaxDamage
     {
         get => _baseMaxDamage;
-        set => _baseMaxDamage = value < 0 ? 0 : value;
+        set => _baseMaxDamage = value < _baseMinDamage ? _baseMinDamage : value;
     }
     [SerializeField, Min(0)] private int _baseMaxDamage;
     public float Radius
@@ -44,7 +44,7 @@ public abstract class Weapon : Item
     public abstract float Attack();
     public void BaseDamageCorrect(float multiplier)
     {
-        _baseMinDamage=(int)(_baseMaxDamage * multiplier);
-        _baseMaxDamage=(int)(_baseMaxDamage * multiplier);
+        _baseMinDamage = (int)(_baseMaxDamage * multiplier);
+        _baseMaxDamage = (int)(_baseMaxDamage * multiplier);
     }
 }

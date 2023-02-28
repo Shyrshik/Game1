@@ -23,19 +23,13 @@ public class Enemy : MonoBehaviour
     private float _ticFirstWeapon = 0.3f;
     private Moved _move;
     private LayerMask _MyEnemies;
-    //[SerializeField] private float _damage = 1f;
-    //[SerializeField] private float _range = 0.5f;
-    //[SerializeField] private float _coolDown = 1f;
     private void Awake()
     {
         _move = GetComponent<Moved>();
         _rigidBody = GetComponent<Rigidbody2D>();
-        //Player player = FindObjectOfType<Player>();
         _rigidBodyPlayer = FindObjectOfType<Player>().GetComponent<Rigidbody2D>();
         _gameManager = FindObjectOfType<GameManager>();
         _maxDistanceToPlayer = Mathf.Pow(_maxDistanceToPlayer, 2);
-        //_firstWeapon = new Weapon(LayerMask.GetMask("Allies"), _damage, _range, _coolDown, false, _ticFirstWeapon);
-        //AttackFirstWeapon();
     }
     private void Start()
     {
