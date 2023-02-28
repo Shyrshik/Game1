@@ -8,7 +8,7 @@ public static class Target2D
     public static Collider2D[] GetNearest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
         Collider2D[] enemies = new Collider2D[0];
-        if (radius < 0 && count < 1) 
+        if (radius < 0 || count < 1) 
         { 
             return enemies;
         }
