@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,66 +6,45 @@ public static class Target2D
 {
     public static Collider2D[] GetNearest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
-        Collider2D[] enemies = new Collider2D[0];
-        if (radius < 0 || count < 1) 
-        { 
-            return enemies;
-        }
-        var radiusPortion = radius / 4;
-        for (int i = 1; i <= 4; i++)
+        if (radius < 0 || count < 1)
         {
-            enemies = Physics2D.OverlapCircleAll(weaponPosition, radiusPortion * i, enemyLayers);
-            if (enemies.Length >= count)
-                break;
+            return new Collider2D[0];
         }
-        if (enemies.Length < 1)
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
+        if (enemies.Length <= count)
+        {
             return enemies;
-        return enemies.OrderBy(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToArray(); 
+        }
+        return enemies.OrderBy(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToArray();
     }
     public static Collider2D[] GetFarthest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
-        if (count < 1)
-            return null;
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
-        int enemiesLength = enemies.Length;
-        if (enemiesLength < 1)
-            return null;
-        if (count < 0)
-            return enemies;
-        float distance;
-        float farthestDistance;
-        Collider2D[] resultEnemy = new Collider2D[count];
-        for (int i = 0; i < count; i++)
+        if (radius < 0 || count < 1)
         {
-            farthestDistance = -1;
-            for (int j = i; j < enemiesLength; j++)
-            {
-                distance = Mathf.Abs(Vector2.SqrMagnitude((enemies[j].transform.position - weaponPosition)));
-                if (distance > farthestDistance)
-                {
-                    farthestDistance = distance;
-                    resultEnemy[i] = enemies[j];
-                    enemies[j] = enemies[i];
-                    enemies[i] = resultEnemy[i];
-                }
-            }
+            return new Collider2D[0];
         }
-        return resultEnemy;
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
+        if (enemies.Length <= count)
+        {
+            return enemies;
+        }
+        return enemies.OrderByDescending(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToArray();
     }
     public static Collider2D[] GetRandom(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
-        if (count < 1)
-            return null;
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
-        int enemiesLength = enemies.Length;
-        if (enemiesLength < 1)
-            return null;
-        if (count < 0)
-            return enemies;
-        Collider2D[] resultEnemy = new Collider2D[count];
-        for (int i = 0; (i < count) && (i < enemiesLength); i++)
+        if (radius < 0 || count < 1)
         {
-            int random = UnityEngine.Random.Range(i, enemiesLength);
+            return new Collider2D[0];
+        }
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
+        if (enemies.Length <= count)
+        {
+            return enemies;
+        }
+        Collider2D[] resultEnemy = new Collider2D[count];
+        for (int i = 0; i < count; i++)
+        {
+            int random = UnityEngine.Random.Range(i, enemies.Length);
             resultEnemy[i] = enemies[random];
             enemies[random] = enemies[i];
             enemies[i] = resultEnemy[i];
