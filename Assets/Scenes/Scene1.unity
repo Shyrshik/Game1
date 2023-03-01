@@ -3445,7 +3445,7 @@ MonoBehaviour:
   _camera: {fileID: 519420028}
   _tilemap: {fileID: 340285457}
   _prefabEnemy: {fileID: 8863017528821235126, guid: b26c26eb02dd07b4ea7283338171af89, type: 3}
-  _timeBotSpawn: 10
+  _timeBotSpawn: 1
 --- !u!4 &1756321911
 Transform:
   m_ObjectHideFlags: 0

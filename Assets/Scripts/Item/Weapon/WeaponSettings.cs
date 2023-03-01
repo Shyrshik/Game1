@@ -15,9 +15,6 @@ public abstract class WeaponSettings : ItemSettings
     [field: SerializeField, Min(0.01f)] public float CoolDownMax { get; private set; } = 0.01f;
     [field: SerializeField, Min(0.01f)] public float TicAttackMin { get; private set; } = 0.01f;
     [field: SerializeField, Min(0.01f)] public float TicAttackMax { get; private set; } = 0.01f;
-    /// <summary>
-    /// -1 = AttackAll
-    /// </summary>
     [field: SerializeField] public int CountEnemiesMin { get; private set; } = 1;
     [field: SerializeField] public int CountEnemiesMax { get; private set; } = 1;
     public abstract Sword GetNewWeapon(int level);
