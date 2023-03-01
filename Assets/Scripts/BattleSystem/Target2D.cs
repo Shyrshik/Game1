@@ -1,73 +1,81 @@
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public static class Target2D
 {
-    public static Collider2D[] GetNearest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
+    public static List<Collider2D> GetNearest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
+        List<Collider2D> enemies = new();
         if (radius < 0 || count < 1)
-        {
-            return new Collider2D[0];
-        }
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
-        if (enemies.Length <= count)
         {
             return enemies;
         }
-        return enemies.OrderBy(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToArray();
+        ContactFilter2D enemyFilter = new ()
+        {
+            layerMask = enemyLayers
+        };
+        Physics2D.OverlapCircle(weaponPosition, radius, enemyFilter, enemies);
+        if (enemies.Count <= count)
+        {
+            return enemies;
+        }
+        return enemies.OrderBy(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToList<Collider2D>();
     }
-    public static Collider2D[] GetFarthest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
+    public static List<Collider2D> GetFarthest(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
+        List<Collider2D> enemies = new();
         if (radius < 0 || count < 1)
-        {
-            return new Collider2D[0];
-        }
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
-        if (enemies.Length <= count)
         {
             return enemies;
         }
-        return enemies.OrderByDescending(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToArray();
+        ContactFilter2D enemyFilter = new()
+        {
+            layerMask = enemyLayers
+        };
+        Physics2D.OverlapCircle(weaponPosition, radius, enemyFilter, enemies);
+        if (enemies.Count <= count)
+        {
+            return enemies;
+        }
+        return enemies.OrderByDescending(x => (weaponPosition - x.transform.position).sqrMagnitude).Take(count).ToList<Collider2D>();
     }
-    public static Collider2D[] GetRandom(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
+    public static List<Collider2D> GetRandom(Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
+        List<Collider2D> enemies = new();
         if (radius < 0 || count < 1)
-        {
-            return new Collider2D[0];
-        }
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(weaponPosition, radius, enemyLayers);
-        if (enemies.Length <= count)
         {
             return enemies;
         }
-        Collider2D[] resultEnemy = new Collider2D[count];
+        ContactFilter2D enemyFilter = new()
+        {
+            layerMask = enemyLayers
+        };
+        Physics2D.OverlapCircle(weaponPosition, radius, enemyFilter, enemies);
+        if (enemies.Count <= count)
+        {
+            return enemies;
+        }
+        List<Collider2D> resultEnemy = new (count);
         for (int i = 0; i < count; i++)
         {
-            int random = UnityEngine.Random.Range(i, enemies.Length);
+            int random = UnityEngine.Random.Range(i, enemies.Count);
             resultEnemy[i] = enemies[random];
             enemies[random] = enemies[i];
             enemies[i] = resultEnemy[i];
         }
         return resultEnemy;
     }
-    public static Collider2D[] GetFixTarget(ref Collider2D[] fixTargets, AttackPosition enemyPosition, Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
+    public static List<Collider2D> GetFixTarget(ref List<Collider2D> fixTargets, AttackPosition enemyPosition, Vector3 weaponPosition, float radius, LayerMask enemyLayers, int count = 1)
     {
-        Collider2D[] enemies = null;
-        switch (enemyPosition)
+        List<Collider2D> enemies = enemyPosition switch
         {
-            case AttackPosition.Nearest:
-                enemies = GetNearest(weaponPosition, radius, enemyLayers, count);
-                break;
-            case AttackPosition.Farthest:
-                enemies = GetFarthest(weaponPosition, radius, enemyLayers, count);
-                break;
-            case AttackPosition.Random:
-                enemies = GetRandom(weaponPosition, radius, enemyLayers, count);
-                break;
-            default:
-                break;
-        }
+            AttackPosition.Nearest => GetNearest(weaponPosition, radius, enemyLayers, count),
+            AttackPosition.Farthest => GetFarthest(weaponPosition, radius, enemyLayers, count),
+            AttackPosition.Random => GetRandom(weaponPosition, radius, enemyLayers, count),
+            _ => new(),
+        };
         if (enemies.IsUnityNull())
         {
             fixTargets = null;
@@ -78,14 +86,14 @@ public static class Target2D
             fixTargets = enemies;
             return fixTargets;
         }
-        int fixTargetsLength = fixTargets.Length;
+        int fixTargetsLength = fixTargets.Count;
         if (fixTargetsLength < 1)
         {
             fixTargets = enemies;
             return fixTargets;
         }
         float sqrRadius = radius * radius;
-        Collider2D[] result = new Collider2D[count];
+        List<Collider2D> result = new (count);
         Collider2D enemy;
         for (int i = 0; i < count; i++)
         {
@@ -99,7 +107,7 @@ public static class Target2D
                     fixTargets[j] = null;
                     continue;
                 }
-                for (int k = 0; k < enemies.Length; k++)
+                for (int k = 0; k < enemies.Count; k++)
                 {
                     if (enemies[k] == enemy)
                     {
@@ -114,7 +122,7 @@ public static class Target2D
             }
             if (i >= count)
                 break;
-            for (int k = 0; k < enemies.Length; k++)
+            for (int k = 0; k < enemies.Count; k++)
             {
                 if (!enemies[k].IsUnityNull())
                 {
@@ -144,7 +152,7 @@ public static class Target2D
     /// <returns></returns>
     public static float Attack(Weapon weapon, AttackPosition enemyPosition, bool fixTarget = true)
     {
-        Collider2D[] enemies = weapon.FixTargetEnemies;
+        List<Collider2D> enemies = weapon.FixTargetEnemies;
         if (fixTarget)
         {
             switch (enemyPosition)

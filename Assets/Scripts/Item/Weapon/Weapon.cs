@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Weapon : Item
@@ -40,7 +41,7 @@ public abstract class Weapon : Item
     [field: SerializeField] public int CountEnemies { get; set; } = 1;
     public LayerMask EnemyLayers { get; set; }
     public Transform OwnerTransform { get; set; }
-    public Collider2D[] FixTargetEnemies { get; set; } = null;
+    public List<Collider2D> FixTargetEnemies { get; set; } = new List<Collider2D>();
     public abstract float Attack();
     public void BaseDamageCorrect(float multiplier)
     {
