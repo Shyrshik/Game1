@@ -19,13 +19,13 @@ MonoBehaviour:
   <LevelMultiplier>k__BackingField: 2
   <BaseMinDamageMin>k__BackingField: 10
   <BaseMinDamageMax>k__BackingField: 20
-  <BaseMaxDamageMin>k__BackingField: 20
+  <BaseMaxDamageMin>k__BackingField: 15
   <BaseMaxDamageMax>k__BackingField: 30
-  <RadiusAttackMin>k__BackingField: 1
-  <RadiusAttackMax>k__BackingField: 1
-  <CoolDownMin>k__BackingField: 0.5
+  <RadiusAttackMin>k__BackingField: 0.2
+  <RadiusAttackMax>k__BackingField: 0.3
+  <CoolDownMin>k__BackingField: 0.3
   <CoolDownMax>k__BackingField: 0.5
-  <TicAttackMin>k__BackingField: 1
-  <TicAttackMax>k__BackingField: 1
-  <CountEnemiesMin>k__BackingField: 3
+  <TicAttackMin>k__BackingField: 0.2
+  <TicAttackMax>k__BackingField: 0.2
+  <CountEnemiesMin>k__BackingField: 1
   <CountEnemiesMax>k__BackingField: 3

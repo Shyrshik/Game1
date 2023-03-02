@@ -35,9 +35,6 @@ public abstract class Weapon : Item
         set => _ticAttack = value > 0.01f ? value : 0.01f;
     }
     [SerializeField, Min(0.01f)] private float _ticAttack = 0.01f;
-    /// <summary>
-    /// -1 = AttackAll
-    /// </summary>
     [field: SerializeField] public int CountEnemies { get; set; } = 1;
     public LayerMask EnemyLayers { get; set; }
     public Transform OwnerTransform { get; set; }

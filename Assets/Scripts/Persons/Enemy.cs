@@ -38,7 +38,8 @@ public class Enemy : MonoBehaviour
 
         _firstWeapon.EnemyLayers = _MyEnemies;
         _firstWeapon.OwnerTransform = transform;
-        _firstWeapon.BaseDamageCorrect(0.7f);
+        _firstWeapon.BaseDamageCorrect(0.25f);
+        _firstWeapon.Radius /= 2f;
         AttackFirstWeapon();
     }
     private void AttackFirstWeapon()
