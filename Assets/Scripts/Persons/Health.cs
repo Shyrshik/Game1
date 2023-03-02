@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[DisallowMultipleComponent]
 public class Health : MonoBehaviour
 {
     public int MaxHealth

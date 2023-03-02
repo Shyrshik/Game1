@@ -1,17 +1,14 @@
 using UnityEngine;
 
-
-[RequireComponent(typeof(Rigidbody2D)),
-    RequireComponent(typeof(Moved))]
+[DisallowMultipleComponent]
+[RequireComponent(typeof(Rigidbody2D))]
 public class MainCamera : MonoBehaviour
 {
     [SerializeField] private GameObject _trackingObject;
     [SerializeField] private Vector3 _positionCorrect = new(0f, -10f, -6);
-    [SerializeField] private float _maxDistanceToTrackingObject = -1;
-
+    [SerializeField,Tooltip("Отрицательное значение = Установить автоматически.")] private float _maxDistanceToTrackingObject = -1;
     private Rigidbody2D _rigidBody2D;
     private Moved _trackingObjectMove;
-    private Moved _move;
     private Rigidbody2D _trackingObjectRigidBody2D;
     private Vector2 _moveCamera;
     private Vector2 _correct;
@@ -20,15 +17,15 @@ public class MainCamera : MonoBehaviour
         SetTrackingObject();
         _correct = _positionCorrect;
         _rigidBody2D = GetComponent<Rigidbody2D>();
-        _move = GetComponent<Moved>();
         if (_maxDistanceToTrackingObject < 0f)
             SetAutoDistanceToTrackingObject();
     }
     private void FixedUpdate()
     {
         _moveCamera = _trackingObjectRigidBody2D.position + _correct - _rigidBody2D.position;
-        _moveCamera += Vector2.ClampMagnitude(_trackingObjectMove.VectorVelocity, _maxDistanceToTrackingObject) + _trackingObjectRigidBody2D.velocity;
-        _move.Move(_moveCamera);
+        _moveCamera += Vector2.ClampMagnitude(_trackingObjectMove.VectorVelocity, _maxDistanceToTrackingObject) 
+            + _trackingObjectRigidBody2D.velocity;
+        _rigidBody2D.velocity = _moveCamera;
     }
     public void SetAutoDistanceToTrackingObject()
     {

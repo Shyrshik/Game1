@@ -2,6 +2,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TileBase = UnityEngine.Tilemaps.TileBase;
+[DisallowMultipleComponent]
 public class MapBuilder : MonoBehaviour
 {
     [SerializeField] private Tilemap _tilemapGround;
@@ -24,7 +25,7 @@ public class MapBuilder : MonoBehaviour
         Vector3Int position = new(0, 0, 0);
         
         _tilemapGround.SetTile(position, _tileGround);
-        // создаем площадку 3х3 вокруг персонажа, может там что то будем ложить при старте игры
+        // создаем площадку 3х3 вокруг персонажа, может там что то будем класть при старте игры
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)

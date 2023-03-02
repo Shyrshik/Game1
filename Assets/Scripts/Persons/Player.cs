@@ -1,6 +1,6 @@
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
-
+[DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D)),
     RequireComponent(typeof(SpriteRenderer)),
     RequireComponent(typeof(Moved)),

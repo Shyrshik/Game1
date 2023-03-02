@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D)),
     RequireComponent(typeof(SpriteRenderer)),
     RequireComponent(typeof(Animator))]

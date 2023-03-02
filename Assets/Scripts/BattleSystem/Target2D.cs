@@ -52,7 +52,7 @@ public static class Target2D
         {
             return enemies;
         }
-        return enemies.OrderBy(x => UnityEngine.Random.Range(int.MinValue,int.MaxValue)).Take(count).ToList();
+        return enemies.OrderBy(x => UnityEngine.Random.Range(int.MinValue, int.MaxValue)).Take(count).ToList();
     }
     public static void GetFixTarget(ref List<Collider2D> fixTargets, AttackPosition enemyPosition, Vector3 weaponPosition, float radius,
         LayerMask enemyLayers, int count = 1)
@@ -97,13 +97,16 @@ public static class Target2D
             switch (enemyPosition)
             {
                 case AttackPosition.Nearest:
-                    GetFixTarget(ref enemies, AttackPosition.Nearest, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies);
+                    GetFixTarget(ref enemies, AttackPosition.Nearest, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                        weapon.CountEnemies);
                     break;
                 case AttackPosition.Farthest:
-                    GetFixTarget(ref enemies, AttackPosition.Farthest, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies);
+                    GetFixTarget(ref enemies, AttackPosition.Farthest, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                        weapon.CountEnemies);
                     break;
                 case AttackPosition.Random:
-                    GetFixTarget(ref enemies, AttackPosition.Random, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies);
+                    GetFixTarget(ref enemies, AttackPosition.Random, weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                        weapon.CountEnemies);
                     break;
             }
         }
@@ -111,9 +114,12 @@ public static class Target2D
         {
             enemies = enemyPosition switch
             {
-                AttackPosition.Nearest => GetNearest(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies),
-                AttackPosition.Farthest => GetFarthest(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies),
-                AttackPosition.Random => GetRandom(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers, weapon.CountEnemies),
+                AttackPosition.Nearest => GetNearest(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                    weapon.CountEnemies),
+                AttackPosition.Farthest => GetFarthest(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                    weapon.CountEnemies),
+                AttackPosition.Random => GetRandom(weapon.OwnerTransform.position, weapon.Radius, weapon.EnemyLayers,
+                    weapon.CountEnemies),
                 _ => new()
             };
         }

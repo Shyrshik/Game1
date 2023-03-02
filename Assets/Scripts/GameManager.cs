@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
-
+[DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _gameMenu;
