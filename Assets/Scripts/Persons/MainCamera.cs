@@ -12,7 +12,6 @@ public class MainCamera : MonoBehaviour
     private Rigidbody2D _trackingObjectRigidBody2D;
     private Vector2 _moveCamera;
     private Vector2 _correct;
-    private GameObject _noTarget = null;
     private void Awake()
     {
         SetTrackingObject(_trackingObject);
@@ -34,7 +33,6 @@ public class MainCamera : MonoBehaviour
     }
     public void SetTrackingObject(GameObject trackingObject)
     {
-        DestroyImmediate(_noTarget);
         try
         {
             _trackingObject = trackingObject;
@@ -45,11 +43,6 @@ public class MainCamera : MonoBehaviour
         catch 
         {
             Debug.LogError("NoTargetForCamera");
-            _trackingObject = new("NoTargetForCamera");
-            _trackingObject.transform.position = Vector3.zero;
-            _trackingObject.AddComponent<Moved>();
-            _trackingObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-            SetTrackingObject(_trackingObject);
         }
 
 
