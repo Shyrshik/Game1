@@ -6,11 +6,11 @@ TextureImporter:
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
-    borderMipMap: 1
+    borderMipMap: 0
     mipMapsPreserveCoverage: 0
     alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
@@ -49,7 +49,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tiles_0
+      name: Background 3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63632c79c1a1e954f8f19ae05c011f88
-      internalID: -1247692428
+      spriteID: 974ab4df7f369fb4fa91a71586c20cc0
+      internalID: -1526242263
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_1
+      name: Background 3_1
       rect:
         serializedVersion: 2
         x: 64
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88ddbaef8c9207d49989848e60c0be49
-      internalID: -727899293
+      spriteID: fadb9d82ef29b6444ade4194f26c987d
+      internalID: 156039318
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_2
+      name: Background 3_2
       rect:
         serializedVersion: 2
         x: 128
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d26ab6400b589cd4ab71f5e45bce7933
-      internalID: 2110728870
+      spriteID: d21502f90e3ecee40a5792209d7dbea1
+      internalID: 597811432
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_3
+      name: Background 3_3
       rect:
         serializedVersion: 2
         x: 192
@@ -194,14 +194,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ee58e6fe35be0540a866b6e0b45b2de
-      internalID: -1586783062
+      spriteID: 45c9914ec8cf2c74092bdaa712b792cb
+      internalID: -1502905223
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_4
+      name: Background 3_4
       rect:
         serializedVersion: 2
         x: 256
@@ -215,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 11e46e40461bd594e97123dc454f168b
-      internalID: -306013333
+      spriteID: eaa2f563166daa54393891aafe38be53
+      internalID: 117075095
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_5
+      name: Background 3_5
       rect:
         serializedVersion: 2
         x: 320
@@ -236,14 +236,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8893eafe37be3584cb7c4df482a616aa
-      internalID: 1731433775
+      spriteID: 15810a0c7f85aa8498bb8eb494ca471f
+      internalID: -664951258
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tiles_6
+      name: Background 3_6
       rect:
         serializedVersion: 2
         x: 384
@@ -257,8 +257,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67b6b840f7653ab4880d38d12b610795
-      internalID: 1150240755
+      spriteID: ad288ab5c15e5344fb4ba52d6472b00e
+      internalID: -837380941
       vertices: []
       indices: 
       edges: []
@@ -274,13 +274,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tiles_1: -727899293
-      Tiles_0: -1247692428
-      Tiles_5: 1731433775
-      Tiles_6: 1150240755
-      Tiles_4: -306013333
-      Tiles_3: -1586783062
-      Tiles_2: 2110728870
+      Background 3_1: 156039318
+      Background 3_6: -837380941
+      Background 3_5: -664951258
+      Background 3_2: 597811432
+      Background 3_3: -1502905223
+      Background 3_0: -1526242263
+      Background 3_4: 117075095
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
