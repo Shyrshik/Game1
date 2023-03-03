@@ -27,7 +27,7 @@ public class MainCamera : MonoBehaviour
             + _trackingObjectRigidBody2D.velocity;
         _rigidBody2D.velocity = _moveCamera;
     }
-        public void SetAutoDistanceToTrackingObject()
+    public void SetAutoDistanceToTrackingObject()
     {
         _maxDistanceToTrackingObject = GetComponent<Camera>().orthographicSize * 1.7f;
     }
