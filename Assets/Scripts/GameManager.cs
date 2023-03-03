@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private float _timePrefab;
     public float _timeBotSpawn = 1f;
     private InputСontroller _inputController;
-
+    private GameObject _allEnemies;
     private void Awake()
     {
         // снимаем с паузы и назначаем управление паузой
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         startPosition.z -= 6;
         _camera.transform.position = startPosition;
 
+        _allEnemies = new GameObject("AllEnemies");
         Invoke(nameof(PostEnemyInvoke), _timeBotSpawn);
     }
     private void PostEnemyInvoke()
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
             TileBase tileForSpawn = _tilemap.GetTile(vectorInstantiateInt);
             if (tileForSpawn != null)
             {
-                Instantiate(_prefabEnemy, vectorInstantiate, _player.transform.rotation);
+                Instantiate(_prefabEnemy, vectorInstantiate, _player.transform.rotation, _allEnemies.transform);
                 EventManager.SendEnemyCount(1f);
             }
         }
