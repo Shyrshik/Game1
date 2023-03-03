@@ -18,7 +18,8 @@ public class MainCamera : MonoBehaviour
         _correct = _positionCorrect;
         _rigidBody2D = GetComponent<Rigidbody2D>();
         if (_maxDistanceToTrackingObject < 0f)
-            SetAutoDistanceToTrackingObject();
+            //Дождемся загрузки Pixel Perfects, потом скорректируем!
+           Invoke( nameof(SetAutoDistanceToTrackingObject),1f);
     }
     private void FixedUpdate()
     {
