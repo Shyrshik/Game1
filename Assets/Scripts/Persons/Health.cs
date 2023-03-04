@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour
@@ -11,13 +12,17 @@ public class Health : MonoBehaviour
     [SerializeField] private bool _sendHealthToInterface = false;
 
     private int _currentHealth;
-    private SpriteRenderer _spriteRendererThis;
+    private SpriteRenderer _spriteRenderer;
     private Color _standardColor;
 
     private void Awake()
     {
-        _spriteRendererThis = GetComponent<SpriteRenderer>();
-        _standardColor = _spriteRendererThis.color;
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (_spriteRenderer.IsUnityNull())
+        {
+            Debug.LogError("Не получены компоненты SpriteRenderer.");
+        }
+        _standardColor = _spriteRenderer.color;
         _currentHealth = _maxHealth;
     }
     private void Start()
@@ -38,9 +43,9 @@ public class Health : MonoBehaviour
         {
             EventManager.SendHealthToInterface(_currentHealth);
         }
-        if (_spriteRendererThis != null)
+        if (_spriteRenderer != null)
         {
-            _spriteRendererThis.color = Color.red;
+            _spriteRenderer.color = Color.red;
             Invoke(nameof(ReturnStandardColor), 0.2f);
         }
         if (_currentHealth <= 0)
@@ -51,14 +56,14 @@ public class Health : MonoBehaviour
     }
     private void ReturnStandardColor()
     {
-        if (_spriteRendererThis != null)
-            _spriteRendererThis.color = _standardColor;
+        if (_spriteRenderer != null)
+            _spriteRenderer.color = _standardColor;
     }
     private void Death()
     {
         if (_sendHealthToInterface)
         {
-            _spriteRendererThis.color = Color.black;
+            _spriteRenderer.color = Color.black;
         }
         else if (!_sendHealthToInterface)
         {

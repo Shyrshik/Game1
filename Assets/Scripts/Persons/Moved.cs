@@ -1,8 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
 [DisallowMultipleComponent]
-[RequireComponent(typeof(Rigidbody2D)),
-    RequireComponent(typeof(SpriteRenderer)),
-    RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Moved : MonoBehaviour
 {
     public float BaseSpeed
@@ -47,13 +46,23 @@ public class Moved : MonoBehaviour
     private float _currentMultiplier;
     private float _angle;
     private float _moveSpeed;
-    private SpriteRenderer _spriteRenderer;
-    private Animator _animator;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Animator _animator;
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_animator.IsUnityNull())
+        {
+            _animator = GetComponent<Animator>();
+        }
+        if (_spriteRenderer.IsUnityNull())
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
         _rigidBody = GetComponent<Rigidbody2D>();
+        if (_animator.IsUnityNull() || _spriteRenderer.IsUnityNull() || _rigidBody.IsUnityNull())
+        { 
+            Debug.LogError("Не получены компоненты Animator, SpriteRenderer или Rigidbody2D.");
+        }
         SetRun(false);
     }
     public void Move(Vector2 velocity)
