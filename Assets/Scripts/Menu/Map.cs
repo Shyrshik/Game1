@@ -1,7 +1,8 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.SocialPlatforms;
 
+[RequireComponent(typeof(Camera))]
 public class Map : MonoBehaviour
 {
     public Transform Parent
@@ -21,44 +22,51 @@ public class Map : MonoBehaviour
         {
             _markOnMap = value;
             _spriteRenderer.sprite = _markOnMap;
+            _spriteRenderer.transform.localScale = Vector3.one * (_camera.orthographicSize / 10 * MarkSize); ;
         }
     }
     [SerializeField] private Sprite _markOnMap;
+    [field: SerializeField] public float MarkSize { get; set; } = 1;
     public float EnemyVisibilityRadius
     {
         get => _enemyVisibilityRadius;
         set
         {
             _enemyVisibilityRadius = value;
-            _transformSpriteMask.localScale = Vector3.one * _enemyVisibilityRadius;
+            _transformSpriteMask.localScale = Vector3.one * (_enemyVisibilityRadius * 2 + 1);
         }
     }
-    [SerializeField] private float _enemyVisibilityRadius;
+    [SerializeField] private float _enemyVisibilityRadius = 1;
+    public int Scale
+    {
+        get => _scale;
+        set
+        {
+            if (value < 1)
+                _scale = 1;
+            else if (value > 100)
+                _scale = 100;
+            else
+                _scale = value;
+            _camera.orthographicSize = _scale;
+            MarkOnMap = MarkOnMap;
+        }
+    }
+    [SerializeField, Range(1, 100)] private int _scale = 10;
+
     private SpriteRenderer _spriteRenderer;
-    private static GameObject _instance;
     private Transform _transformSpriteMask;
+    private Camera _camera;
     private void Awake()
     {
-        CheckInstance();
-        GetSpriteRendering();
-        GetTransformSpriteMask();
+        _camera = GetComponent<Camera>();
+        SetSpriteRendering();
+        SetTransformSpriteMask();
         Parent = Parent;
     }
-    private void CheckInstance()
+    private void SetTransformSpriteMask()
     {
-        if (_instance.IsUnityNull())
-        {
-            _instance = gameObject;
-        }
-        else
-        {
-            DestroyImmediate(gameObject);
-            return;
-        }
-    }    
-    private void GetTransformSpriteMask()
-    {
-        Transform _transformSpriteMask = GetComponentInChildren<SpriteMask>().transform;
+        _transformSpriteMask = GetComponentInChildren<SpriteMask>().transform;
         if (_transformSpriteMask.IsUnityNull())
         {
             Debug.LogError("Не получен компонент SpriteMask.Transform.");
@@ -68,7 +76,7 @@ public class Map : MonoBehaviour
             EnemyVisibilityRadius = EnemyVisibilityRadius;
         }
     }
-    private void GetSpriteRendering()
+    private void SetSpriteRendering()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (_spriteRenderer.IsUnityNull())
@@ -80,15 +88,14 @@ public class Map : MonoBehaviour
             MarkOnMap = MarkOnMap;
         }
     }
-
     [ContextMenu(nameof(Apply))]
     public void Apply()
     {
         if (UnityEditor.EditorApplication.isPlaying)
         {
-            MarkOnMap = MarkOnMap;
             Parent = Parent;
             EnemyVisibilityRadius = EnemyVisibilityRadius;
+            Scale = Scale;
         }
     }
 }
