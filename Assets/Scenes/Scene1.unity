@@ -3957,6 +3957,14 @@ PrefabInstance:
       propertyPath: Inventory
       value: 
       objectReference: {fileID: 1698095301}
+    - target: {fileID: 2066325783, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066325783, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3668344751126099023, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
       propertyPath: m_Name
       value: Player
