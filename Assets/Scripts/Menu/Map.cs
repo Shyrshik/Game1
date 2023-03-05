@@ -21,10 +21,10 @@ public class Map : MonoBehaviour
         set
         {
             _markOnMap = value;
-            _spriteRenderer.sprite = _markOnMap;
-            _spriteRenderer.transform.localScale = Vector3.one * (_camera.orthographicSize / 10 * MarkSize); ;
+            _spriteRendererForMark.sprite = _markOnMap;
+            _spriteRendererForMark.transform.localScale = Vector3.one * (_camera.orthographicSize / 10 * MarkSize); ;
         }
-    }
+    } 
     [SerializeField] private Sprite _markOnMap;
     [field: SerializeField] public float MarkSize { get; set; } = 1;
     public float EnemyVisibilityRadius
@@ -33,7 +33,7 @@ public class Map : MonoBehaviour
         set
         {
             _enemyVisibilityRadius = value;
-            _transformSpriteMask.localScale = Vector3.one * (_enemyVisibilityRadius * 2 + 1);
+            _transformSpriteMaskForEnemies.localScale = Vector3.one * (_enemyVisibilityRadius * 2 + 1);
         }
     }
     [SerializeField] private float _enemyVisibilityRadius = 1;
@@ -54,38 +54,30 @@ public class Map : MonoBehaviour
     }
     [SerializeField, Range(1, 100)] private int _scale = 10;
 
-    private SpriteRenderer _spriteRenderer;
-    private Transform _transformSpriteMask;
+    private SpriteRenderer _spriteRendererForMark;
+    private Transform _transformSpriteMaskForEnemies;
     private Camera _camera;
     private void Awake()
     {
         _camera = GetComponent<Camera>();
-        SetSpriteRendering();
-        SetTransformSpriteMask();
-        Parent = Parent;
+        SetSpriteRendererForMark();
+        SetTransformSpriteMaskForEnemies();
+        Apply();
     }
-    private void SetTransformSpriteMask()
+    private void SetTransformSpriteMaskForEnemies()
     {
-        _transformSpriteMask = GetComponentInChildren<SpriteMask>().transform;
-        if (_transformSpriteMask.IsUnityNull())
+        _transformSpriteMaskForEnemies = GetComponentInChildren<SpriteMask>().transform;
+        if (_transformSpriteMaskForEnemies.IsUnityNull())
         {
             Debug.LogError("Не получен компонент SpriteMask.Transform.");
         }
-        else
-        {
-            EnemyVisibilityRadius = EnemyVisibilityRadius;
-        }
     }
-    private void SetSpriteRendering()
+    private void SetSpriteRendererForMark()
     {
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (_spriteRenderer.IsUnityNull())
+        _spriteRendererForMark = GetComponentInChildren<SpriteRenderer>();
+        if (_spriteRendererForMark.IsUnityNull())
         {
             Debug.LogError("Не получен компонент SpriteRenderer.");
-        }
-        else
-        {
-            MarkOnMap = MarkOnMap;
         }
     }
     [ContextMenu(nameof(Apply))]
