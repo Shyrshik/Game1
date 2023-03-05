@@ -19,7 +19,7 @@ public class MainCamera : MonoBehaviour
         _rigidBody2D = GetComponent<Rigidbody2D>();
         if (_maxDistanceToTrackingObject < 0f)
             //Дождемся загрузки Pixel Perfects, потом корректируем!
-           Invoke( nameof(SetAutoDistanceToTrackingObject),1f);
+            Invoke(nameof(SetAutoDistanceToTrackingObject), 1f);
     }
     private void FixedUpdate()
     {
@@ -41,7 +41,7 @@ public class MainCamera : MonoBehaviour
             _trackingObjectRigidBody2D = _trackingObject.GetComponent<Rigidbody2D>();
             transform.position = _positionCorrect + _trackingObject.transform.position;
         }
-        catch 
+        catch
         {
             Debug.LogError("NoTargetForCamera");
         }

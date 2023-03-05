@@ -1,7 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-
 [RequireComponent(typeof(Camera))]
 public class Map : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class Map : MonoBehaviour
             _spriteRendererForMark.sprite = _markOnMap;
             _spriteRendererForMark.transform.localScale = Vector3.one * (_camera.orthographicSize / 10 * MarkSize); ;
         }
-    } 
+    }
     [SerializeField] private Sprite _markOnMap;
     [field: SerializeField] public float MarkSize { get; set; } = 1;
     public float EnemyVisibilityRadius
