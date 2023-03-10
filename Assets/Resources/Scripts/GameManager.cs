@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
         _allEnemies = new GameObject("AllEnemies");
         Invoke(nameof(PostEnemyInvoke), _timeBotSpawn);
+        _allEnemies.AddComponent<EnemiesSpawner>();
     }
     private void PostEnemyInvoke()
     {

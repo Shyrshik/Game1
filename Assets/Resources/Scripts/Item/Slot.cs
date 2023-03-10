@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private int Index;
+    //[SerializeField] private int Index;
     public Item Item
     {
         get
@@ -13,7 +13,7 @@ public class Slot : MonoBehaviour
         set
         {
             _item = value;
-            SetSprite(_item.Icon);
+            SetSprite(_item.Settings.Icon);
         }
     }
     private Item _item;
