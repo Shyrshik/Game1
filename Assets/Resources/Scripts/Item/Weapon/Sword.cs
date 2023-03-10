@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Sword : Weapon
 {
     public override float Attack()
