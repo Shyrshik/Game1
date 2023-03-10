@@ -12,12 +12,15 @@ public class Health : MonoBehaviour
     [SerializeField] private bool _sendHealthToInterface = false;
 
     private int _currentHealth;
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     private Color _standardColor;
 
     private void Awake()
     {
+        if (_spriteRenderer.IsUnityNull())
+        {
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
         if (_spriteRenderer.IsUnityNull())
         {
             Debug.LogError("Не получены компоненты SpriteRenderer.");
