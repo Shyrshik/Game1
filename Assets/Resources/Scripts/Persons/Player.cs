@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,8 +17,8 @@ public class Player : MonoBehaviour
     private Weapon _firstWeapon;
     private Weapon _secondWeapon;
     private LayerMask _MyEnemies;
-    private Item _itemInFocus = Item.Empty;
-    private Collider2D _containerItem;
+    //private Item _itemInFocus = Item.Empty;
+    private ItemInWorld _containerItem;
 
     private void Awake()
     {
@@ -96,13 +95,19 @@ public class Player : MonoBehaviour
     private void OnDisable() => _inputController.Disable();
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        _containerItem = collision.gameObject.GetComponentInChildren<ItemInWorld>();
+        _containerItem.AddItem(_defaultWeapon);
     }
     private void Action()
     {
-        if (!_itemInFocus.IsEmpty())
+        if (!_containerItem.IsEmpty())
         {
-            _bag.AddItem(_itemInFocus);
+            _containerItem.gameObject.SetActive(false);
+            if (_bag.AddItem(_containerItem.Item))
+            {
+                _containerItem.RemoveItem();
+            }
+            _containerItem.gameObject.SetActive(true);
         }
     }
 
