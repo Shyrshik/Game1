@@ -5,20 +5,9 @@ using UnityEngine.UI;
 public class Slot : MonoBehaviour
 {
     public static readonly Item Empty;
-    public Item Item
-    {
-        get
-        {
-            return _item;
-        }
-        //set
-        //{
-        //    _item = value;
-        //    SetSprite(_item.Settings.Icon);
-        //}
-    }
+    public Item Item { get; }
     private Item _item = Empty;
-    
+    private Sprite _defaultSprite;
     static Slot()
     {
         if (Empty.IsUnityNull())
@@ -26,10 +15,30 @@ public class Slot : MonoBehaviour
             Empty = new Item();
         }
     }
+    Slot()
+    {
+        _defaultSprite = GetComponent<Image>().sprite;
+    }
+
+    public bool AddItem(Item item)
+    {
+        if (IsEmpty())
+        {
+            _item = item;
+            SetSprite(_item.Settings.Icon);
+            return true;
+        }
+        return false;
+    }
+    public void RemoveItem()
+    {
+        _item = Empty;
+        SetSprite(_defaultSprite);
+    }
+    public bool IsEmpty() => _item == Empty ? true : false;
     private void SetSprite(Sprite sprite)
     {
         Image image = GetComponent<Image>();
         image.sprite = sprite;
     }
-    
 }
