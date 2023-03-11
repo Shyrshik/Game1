@@ -1,3 +1,6 @@
+using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 [DisallowMultipleComponent]
@@ -6,6 +9,7 @@ using Vector2 = UnityEngine.Vector2;
 public class Player : MonoBehaviour
 {
     [SerializeField] private WeaponSettings _defaultWeaponSettings;
+    [SerializeField] private TextMeshProUGUI _textAboveThePlayer;
 
     private InputСontroller _inputController;
     private Moved _move;
@@ -14,12 +18,18 @@ public class Player : MonoBehaviour
     private Weapon _firstWeapon;
     private Weapon _secondWeapon;
     private LayerMask _MyEnemies;
-   
+    private Item _itemInFocus = Item.Empty;
+
     private void Awake()
     {
         _inputController = new();
         _move = GetComponentInChildren<Moved>();
         _bag = GetComponentInChildren<Bag>();
+        if (_textAboveThePlayer.IsUnityNull())
+        {
+            _textAboveThePlayer = GetComponentInChildren<TextMeshProUGUI>();
+        }
+        _textAboveThePlayer.text = "";
     }
     private void Start()
     {
@@ -43,10 +53,13 @@ public class Player : MonoBehaviour
 
         _inputController.Player.Run.performed += context => Run();
         _inputController.Player.Run.canceled += context => NotRun();
+
+        _inputController.Player.Action.performed += context => Action();
     }
+
     private void FixedUpdate()
     {
-        _move.Move(_inputController.Player.Move.ReadValue<Vector2>());   
+        _move.Move(_inputController.Player.Move.ReadValue<Vector2>());
     }
     private void ControlFirstWeapon()
     {
@@ -80,4 +93,13 @@ public class Player : MonoBehaviour
     private void NotRun() => _move.SetRun(false);
     private void OnEnable() => _inputController.Enable();
     private void OnDisable() => _inputController.Disable();
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+    }
+    private void Action()
+    {
+        throw new NotImplementedException();
+    }
+
 }

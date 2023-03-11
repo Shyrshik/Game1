@@ -4,17 +4,9 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    public static readonly Item Empty;
     public Item Item { get; }
-    private Item _item = Empty;
+    private Item _item = Item.Empty;
     private static Sprite _defaultSprite;
-    static Slot()
-    {
-        if (Empty.IsUnityNull())
-        {
-            Empty = new Item();
-        }
-    }
     private void Awake()
     {
         if (_defaultSprite.IsUnityNull())
@@ -35,10 +27,10 @@ public class Slot : MonoBehaviour
     }
     public void RemoveItem()
     {
-        _item = Empty;
+        _item = Item.Empty;
         SetSprite(_defaultSprite);
     }
-    public bool IsEmpty() => _item == Empty ? true : false;
+    public bool IsEmpty() => _item == Item.Empty ? true : false;
     private void SetSprite(Sprite sprite)
     {
         Image image = GetComponent<Image>();

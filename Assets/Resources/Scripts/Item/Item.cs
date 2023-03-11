@@ -22,4 +22,12 @@ public class Item
         }
     }
     [SerializeField] private ItemSettings _settings = null;
+    public static readonly Item Empty;
+    static Item()
+    {
+        if (Empty.IsUnityNull())
+        {
+            Empty = new Item();
+        }
+    }
 }
