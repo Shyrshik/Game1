@@ -42,7 +42,7 @@ public abstract class Weapon : Item
     public abstract float Attack();
     public void BaseDamageCorrect(float multiplier)
     {
-        _baseMinDamage = (int)(_baseMaxDamage * multiplier);
+        _baseMinDamage = (int)(_baseMinDamage * multiplier);
         _baseMaxDamage = (int)(_baseMaxDamage * multiplier);
     }
 }

@@ -8,7 +8,7 @@ public class Bag : MonoBehaviour
     private Slot[] _slots;
     private InputСontroller _inputController;
     private bool _open = true;
-    //private int _itemAmount = 6;
+    private int _itemAmount = 6;
 
 
     private void Awake()
