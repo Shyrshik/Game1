@@ -7,7 +7,7 @@ public class Slot : MonoBehaviour
     public Item Item { get => _item; }
     protected Item _item = Item.Empty;
     protected static Sprite _defaultSprite;
-    private void Awake()
+    protected virtual void Awake()
     {
         if (_defaultSprite.IsUnityNull())
         {

@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class ItemInWorld : Slot
 {
+    protected override void Awake()
+    {
+        
+    }
     protected override void AddSprite(Sprite sprite)
     {
         SpriteRenderer image = GetComponent<SpriteRenderer>();
