@@ -331,6 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 150
   _sendHealthToInterface: 0
+  _spriteRenderer: {fileID: 8863017528459023206}
 --- !u!114 &8863017528459023209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,8 +346,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseSpeed: 0.7
   _runMultiplier: 2
-  _spriteRenderer: {fileID: 0}
-  _animator: {fileID: 0}
+  _spriteRenderer: {fileID: 8863017528459023206}
+  _animator: {fileID: 8863017528459023205}
 --- !u!114 &8809252527303301530
 MonoBehaviour:
   m_ObjectHideFlags: 0

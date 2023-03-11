@@ -102,12 +102,15 @@ public class Player : MonoBehaviour
     {
         if (!_containerItem.IsEmpty())
         {
-            _containerItem.gameObject.SetActive(false);
+
             if (_bag.AddItem(_containerItem.Item))
             {
                 _containerItem.RemoveItem();
             }
-            _containerItem.gameObject.SetActive(true);
+            else
+            {
+                _containerItem.gameObject.GetComponent<Animator>().StartPlayback();
+            }
         }
     }
 

@@ -33,12 +33,12 @@ public class Slot : MonoBehaviour
 
 
     public bool IsEmpty() => _item == Item.Empty;
-    private void AddSprite(Sprite sprite)
+    protected virtual void AddSprite(Sprite sprite)
     {
         Image image = GetComponent<Image>();
         image.sprite = sprite;
     }
-    private void RemoveSprite()
+    protected virtual void RemoveSprite()
     {
         AddSprite(_defaultSprite);
     }
