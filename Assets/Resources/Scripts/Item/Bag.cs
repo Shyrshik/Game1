@@ -3,19 +3,42 @@ using UnityEngine;
 
 public class Bag : MonoBehaviour
 {
-    [SerializeField] private GameObject Inventory;
+    [SerializeField] private GameObject _inventory;
+    [SerializeField] private Transform _items;
+    [SerializeField] private GameObject _slot;
+    public int ItemAmount
+    {
+        get
+        {
+            return _itemAmount;
+        }
+        set
+        {
+            if (value < 1)
+            {
+                _itemAmount = 1;
+            }
+            else
+            {
+                _itemAmount = value;
+            }
+        }
+    }
+    [SerializeField, Min(1)] private int _itemAmount = 5;
     private Canvas _canvas;
     private Slot[] _slots;
     private InputСontroller _inputController;
     private bool _open = true;
-    private int _itemAmount = 6;
 
 
     private void Awake()
     {
-        //_slots= new Item[_itemAmount];
-        _slots= Inventory.GetComponentsInChildren<Slot>();
-        _canvas = Inventory.GetComponent<Canvas>();
+        for (int i = 0; i < _itemAmount; i++)
+        {
+            Instantiate(_slot, _items);
+        }
+        _slots = _inventory.GetComponentsInChildren<Slot>();
+        _canvas = _inventory.GetComponent<Canvas>();
         _inputController = new();
         _inputController.Player.Inventory.performed += context => Open();
         Open();
@@ -30,7 +53,7 @@ public class Bag : MonoBehaviour
                 _slots[i].Item = item;
                 return true;
             }
-        } 
+        }
         return false;
     }
     public bool RemoveItem(Item item)
