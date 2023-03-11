@@ -30,7 +30,7 @@ public class Slot : MonoBehaviour
         _item = Item.Empty;
         SetSprite(_defaultSprite);
     }
-    public bool IsEmpty() => _item == Item.Empty ? true : false;
+    public bool IsEmpty() => _item == Item.Empty;
     private void SetSprite(Sprite sprite)
     {
         Image image = GetComponent<Image>();

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private Weapon _secondWeapon;
     private LayerMask _MyEnemies;
     private Item _itemInFocus = Item.Empty;
+    private Collider2D _containerItem;
 
     private void Awake()
     {
@@ -99,7 +100,10 @@ public class Player : MonoBehaviour
     }
     private void Action()
     {
-        throw new NotImplementedException();
+        if (!_itemInFocus.IsEmpty())
+        {
+            _bag.AddItem(_itemInFocus);
+        }
     }
 
 }

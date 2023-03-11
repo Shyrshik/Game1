@@ -30,4 +30,6 @@ public class Item
             Empty = new Item();
         }
     }
+    public static bool IsEmpty(Item item) => item == Item.Empty;
+    public bool IsEmpty() => IsEmpty(this);
 }
