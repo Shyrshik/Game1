@@ -7,7 +7,7 @@ public class Slot : MonoBehaviour
     public static readonly Item Empty;
     public Item Item { get; }
     private Item _item = Empty;
-    private Sprite _defaultSprite;
+    private static Sprite _defaultSprite;
     static Slot()
     {
         if (Empty.IsUnityNull())
@@ -15,9 +15,12 @@ public class Slot : MonoBehaviour
             Empty = new Item();
         }
     }
-    Slot()
+    private void Awake()
     {
-        _defaultSprite = GetComponent<Image>().sprite;
+        if (_defaultSprite.IsUnityNull())
+        {
+            _defaultSprite = GetComponent<Image>().sprite;
+        }
     }
 
     public bool AddItem(Item item)

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bag : MonoBehaviour
@@ -45,12 +44,11 @@ public class Bag : MonoBehaviour
     }
     public bool AddItem(Item item)
     {
-        for (int i = 0; i < _slots.Length; i++)
+        foreach (var slot in _slots)
         {
-            Item slot = _slots[i].Item;
-            if (slot.IsUnityNull())
+            if (slot.IsEmpty())
             {
-                _slots[i].Item = item;
+                slot.AddItem(item);
                 return true;
             }
         }
@@ -58,12 +56,11 @@ public class Bag : MonoBehaviour
     }
     public bool RemoveItem(Item item)
     {
-        for (int i = 0; i < _slots.Length; i++)
+        foreach (var slot in _slots)
         {
-            Item slot = _slots[i].Item;
-            if (slot == item)
+            if (slot.Item == item)
             {
-                _slots[i].Item = null;
+                slot.RemoveItem();
                 return true;
             }
         }
@@ -73,7 +70,7 @@ public class Bag : MonoBehaviour
     {
         if (index < _slots.Length)
         {
-            _slots[index].Item = null;
+            _slots[index].RemoveItem();
             return true;
         }
         return false;
