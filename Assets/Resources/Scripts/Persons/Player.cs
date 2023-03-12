@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                _containerItem.gameObject.GetComponent<Animator>().Play("ItemIcon");
+                _containerItem.PlayAnimation();
             }
         }
     }
