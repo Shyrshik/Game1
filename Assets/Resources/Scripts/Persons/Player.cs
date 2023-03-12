@@ -102,11 +102,11 @@ public class Player : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         _textAboveThePlayer.text = "";
-        _containerItem = new ();
+        _containerItem = null;
     }
     private void Action()
     {
-        if (!_containerItem.IsEmpty())
+        if (!_containerItem.IsUnityNull())
         {
 
             if (_bag.AddItem(_containerItem.Item))
