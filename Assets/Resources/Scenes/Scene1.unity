@@ -1863,7 +1863,23 @@ PrefabInstance:
       objectReference: {fileID: 1698095301}
     - target: {fileID: 1119629563, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
       propertyPath: _itemAmount
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850759015, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_overflowMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850759015, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_characterSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850759015, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_overrideHtmlColors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850759015, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
+      propertyPath: m_enableVertexGradient
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3668344751126099023, guid: 3d9446e0557919b41ae648971cbf102a, type: 3}
       propertyPath: m_Name

@@ -2,19 +2,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Slot : MonoBehaviour
+public class SlotInInventory : MonoBehaviour
 {
     public Item Item { get => _item; }
     protected Item _item = Item.Empty;
-    private static Sprite _defaultSprite;
-    protected virtual void Awake()
-    {
-        if (_defaultSprite.IsUnityNull())
-        {
-            _defaultSprite = GetComponent<Image>().sprite;
-        }
-    }
 
+    private static Sprite _defaultSprite;
+    private Image _image;
     public bool AddItem(Item item)
     {
         if (IsEmpty())
@@ -30,13 +24,19 @@ public class Slot : MonoBehaviour
         _item = Item.Empty;
         RemoveSprite();
     }
-
-
     public bool IsEmpty() => _item == Item.Empty;
+
+    protected virtual void Awake()
+    {
+        _image = GetComponent<Image>();
+        if (_defaultSprite.IsUnityNull())
+        {
+            _defaultSprite = _image.sprite;
+        }
+    }
     protected virtual void AddSprite(Sprite sprite)
     {
-        Image image = GetComponent<Image>();
-        image.sprite = sprite;
+        _image.sprite = sprite;
     }
     protected virtual void RemoveSprite()
     {

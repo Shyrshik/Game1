@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     private Weapon _secondWeapon;
     private LayerMask _MyEnemies;
     //private Item _itemInFocus = Item.Empty;
-    private ItemInWorld _containerItem;
+    private SlotInWorld _containerItem;
 
     private void Awake()
     {
@@ -95,8 +95,14 @@ public class Player : MonoBehaviour
     private void OnDisable() => _inputController.Disable();
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _containerItem = collision.gameObject.GetComponentInChildren<ItemInWorld>();
+        _containerItem = collision.gameObject.GetComponentInChildren<SlotInWorld>();
         _containerItem.AddItem(_defaultWeapon);
+        _textAboveThePlayer.text = "Get\r\n" + _containerItem.Item.Settings.Title;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _textAboveThePlayer.text = "";
+        _containerItem = null;
     }
     private void Action()
     {
