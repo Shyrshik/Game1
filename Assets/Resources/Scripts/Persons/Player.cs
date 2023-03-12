@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         _textAboveThePlayer.text = "";
-        _containerItem = null;
+        _containerItem = new ();
     }
     private void Action()
     {
