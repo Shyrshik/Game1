@@ -70,6 +70,10 @@ public class Health : MonoBehaviour
         }
         else if (!_sendHealthToInterface)
         {
+            if (Random.Range(0, 100) < 30)
+            {
+                WeaponSpawner.ThrowNewWeaponInWorld(transform.position);
+            }
             Destroy(this.gameObject);
         }
     }

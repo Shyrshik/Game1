@@ -1,15 +1,21 @@
-
 using UnityEngine;
 
 public class WeaponSpawner : MonoBehaviour
 {
-    private static WeaponSettings[] _weaponsPrefabs;
+    [SerializeField] private GameObject _slot;
+    private static GameObject s_slot;
+    private static WeaponSettings[] s_weaponsPrefabs;
     private void Awake()
     {
-        _weaponsPrefabs = Resources.LoadAll<WeaponSettings>("ScriptableObjects/ItemSettings/WeaponSettings");
+        s_weaponsPrefabs = Resources.LoadAll<WeaponSettings>("ScriptableObjects/ItemSettings/WeaponSettings");
+        s_slot = _slot;
     }
     public static Weapon GetRandomWeapon(int level)
     {
-        return _weaponsPrefabs[Random.Range(0, _weaponsPrefabs.Length)].GetNewWeapon(level);
+        return s_weaponsPrefabs[Random.Range(0, s_weaponsPrefabs.Length)].GetNewWeapon(level);
+    }
+    public static void ThrowNewWeaponInWorld(Vector3 position)
+    {
+        Instantiate(s_slot, position, new Quaternion()).GetComponentInChildren<SlotInWorld>().AddItem(GetRandomWeapon(1));
     }
 }

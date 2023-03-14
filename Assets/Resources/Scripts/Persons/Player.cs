@@ -17,8 +17,7 @@ public class Player : MonoBehaviour
     private Weapon _firstWeapon;
     private Weapon _secondWeapon;
     private LayerMask _MyEnemies;
-    //private Item _itemInFocus = Item.Empty;
-    private SlotInWorld _containerItem;
+    private SlotInWorld _itemInWorld;
 
     private void Awake()
     {
@@ -54,7 +53,7 @@ public class Player : MonoBehaviour
         _inputController.Player.Run.performed += context => Run();
         _inputController.Player.Run.canceled += context => NotRun();
 
-        _inputController.Player.Action.performed += context => Action();
+        _inputController.Player.Action.performed += context => TakeItem();
     }
 
     private void FixedUpdate()
@@ -95,27 +94,29 @@ public class Player : MonoBehaviour
     private void OnDisable() => _inputController.Disable();
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _containerItem = collision.gameObject.GetComponentInChildren<SlotInWorld>();
-        _containerItem.AddItem(_defaultWeapon);
-        _textAboveThePlayer.text = "Get\r\n" + _containerItem.Item.Settings.Title;
+        _itemInWorld = collision.gameObject.GetComponentInChildren<SlotInWorld>();
+        if (!_itemInWorld.IsUnityNull())
+        {
+            _textAboveThePlayer.text = "Get\r\n" + _itemInWorld.Item.Settings.Title;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         _textAboveThePlayer.text = "";
-        _containerItem = null;
+        _itemInWorld = null;
     }
-    private void Action()
+    private void TakeItem()
     {
-        if (!_containerItem.IsUnityNull())
+        if (!_itemInWorld.IsUnityNull())
         {
 
-            if (_bag.AddItem(_containerItem.Item))
+            if (_bag.AddItem(_itemInWorld.Item))
             {
-                _containerItem.RemoveItem();
+                _itemInWorld.RemoveItem();
             }
             else
             {
-                _containerItem.PlayAnimation();
+                _itemInWorld.PlayAnimation();
             }
         }
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SlotInWorld : SlotInInventory
 {
-    private Animator _animator;
+        private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     public void PlayAnimation()
     {
