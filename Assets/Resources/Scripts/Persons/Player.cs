@@ -8,7 +8,7 @@ using Vector2 = UnityEngine.Vector2;
 public class Player : MonoBehaviour
 {
     [SerializeField] private WeaponSettings _defaultWeaponSettings;
-    [SerializeField] private TextMeshProUGUI _textAboveThePlayer;
+    [SerializeField] private TextMeshPro _textAboveThePlayer;
 
     private InputСontroller _inputController;
     private Moved _move;
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
         _bag = GetComponentInChildren<Bag>();
         if (_textAboveThePlayer.IsUnityNull())
         {
-            _textAboveThePlayer = GetComponentInChildren<TextMeshProUGUI>();
+            _textAboveThePlayer = GetComponentInChildren<TextMeshPro>();
         }
         _textAboveThePlayer.text = "";
     }
