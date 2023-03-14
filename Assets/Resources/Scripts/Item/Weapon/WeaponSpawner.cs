@@ -16,6 +16,6 @@ public class WeaponSpawner : MonoBehaviour
     }
     public static void ThrowNewWeaponInWorld(Vector3 position)
     {
-        Instantiate(s_slot, position, new Quaternion()).GetComponentInChildren<SlotInWorld>().AddItem(GetRandomWeapon(1));
+        Instantiate(s_slot, position, Quaternion.identity).GetComponentInChildren<SlotInWorld>().AddItem(GetRandomWeapon(1));
     }
 }

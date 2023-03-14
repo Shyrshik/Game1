@@ -102,8 +102,11 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _textAboveThePlayer.text = "";
-        _itemInWorld = null;
+        if (_itemInWorld == collision.gameObject.GetComponentInChildren<SlotInWorld>())
+        {
+            _textAboveThePlayer.text = "";
+            _itemInWorld = null;
+        }
     }
     private void TakeItem()
     {

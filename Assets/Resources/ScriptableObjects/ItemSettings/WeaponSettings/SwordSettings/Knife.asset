@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 21300000, guid: ab5628fcd227640408b3780bc4542edc, type: 3}
-  <Title>k__BackingField: 
+  <Title>k__BackingField: Knife
   <Description>k__BackingField: 
   <Level>k__BackingField: 1
   <LevelMultiplier>k__BackingField: 2
