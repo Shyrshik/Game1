@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f28722b0f9cb304468ae692b2cd3ae53, type: 3}
-  m_Name: Knife
+  m_Name: SwordProperties
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 21300000, guid: ab5628fcd227640408b3780bc4542edc, type: 3}
-  <Title>k__BackingField: Knife
+  <Icon>k__BackingField: {fileID: 21300000, guid: 80bb00b9c29c8024dbe680bc93d65e45, type: 3}
+  <Title>k__BackingField: Default
   <Description>k__BackingField: 
   <Level>k__BackingField: 1
-  <LevelMultiplier>k__BackingField: 2
-  <BaseMinDamageMin>k__BackingField: 10
-  <BaseMinDamageMax>k__BackingField: 20
-  <BaseMaxDamageMin>k__BackingField: 15
-  <BaseMaxDamageMax>k__BackingField: 30
-  <RadiusAttackMin>k__BackingField: 0.2
-  <RadiusAttackMax>k__BackingField: 0.3
-  <CoolDownMin>k__BackingField: 0.3
-  <CoolDownMax>k__BackingField: 0.5
+  <LevelMultiplier>k__BackingField: 1
+  <BaseMinDamageMin>k__BackingField: 1
+  <BaseMinDamageMax>k__BackingField: 1
+  <BaseMaxDamageMin>k__BackingField: 5
+  <BaseMaxDamageMax>k__BackingField: 5
+  <RadiusAttackMin>k__BackingField: 1
+  <RadiusAttackMax>k__BackingField: 1
+  <CoolDownMin>k__BackingField: 1
+  <CoolDownMax>k__BackingField: 1
   <TicAttackMin>k__BackingField: 0.2
   <TicAttackMax>k__BackingField: 0.2
   <CountEnemiesMin>k__BackingField: 1
-  <CountEnemiesMax>k__BackingField: 3
+  <CountEnemiesMax>k__BackingField: 1
