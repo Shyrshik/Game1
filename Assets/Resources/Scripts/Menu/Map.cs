@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+
 [RequireComponent(typeof(Camera))]
 public class Map : MonoBehaviour
 {
@@ -78,14 +79,22 @@ public class Map : MonoBehaviour
             Debug.LogError("Не получен компонент SpriteRenderer.");
         }
     }
+    private void Apply()
+    {
+        Parent = Parent;
+        EnemyVisibilityRadius = EnemyVisibilityRadius;
+        Scale = Scale;
+
+    }
+#if UNITY_EDITOR
     [ContextMenu(nameof(Apply))]
-    public void Apply()
+    public void ApplyInEditor()
     {
         if (UnityEditor.EditorApplication.isPlaying)
         {
-            Parent = Parent;
-            EnemyVisibilityRadius = EnemyVisibilityRadius;
-            Scale = Scale;
+            Apply();
         }
     }
+#endif
+
 }
