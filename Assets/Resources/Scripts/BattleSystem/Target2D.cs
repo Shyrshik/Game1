@@ -58,19 +58,6 @@ public static class Target2D
             return enemies.OrderBy(x => UnityEngine.Random.Range(int.MinValue, int.MaxValue)).Take(count).ToList();
         }
     }
-    public enum AttackPosition
-    {
-        Nearest,
-        Farthest,
-        Random
-    }
-    /// <summary>
-    /// Return Weapon.CoolDown or Weapon.TicTimeAttack
-    /// </summary>
-    /// <param name="weapon"></param>
-    /// <param name="enemyPosition"></param>
-    /// <param name="fixTarget"></param>
-    /// <returns></returns>
     public static class Attack
     {
         private static List<Collider2D> enemies;
@@ -149,4 +136,17 @@ public static class Target2D
             return result;
         }
     }
+    public enum AttackPosition
+    {
+        Nearest,
+        Farthest,
+        Random
+    }
+    /// <summary>
+    /// Return Weapon.CoolDown or Weapon.TicTimeAttack
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <param name="enemyPosition"></param>
+    /// <param name="fixTarget"></param>
+    /// <returns></returns>
 }
