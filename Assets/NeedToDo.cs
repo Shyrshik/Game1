@@ -31,6 +31,10 @@ public class NeedToDo
 
 
 
+
+
+
+
     /*
      * Vlad Demin, что то про камеру.
      * 

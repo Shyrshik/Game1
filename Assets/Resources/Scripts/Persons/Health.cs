@@ -15,26 +15,6 @@ public class Health : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private Color _standardColor;
 
-    private void Awake()
-    {
-        if (_spriteRenderer.IsUnityNull())
-        {
-            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
-        if (_spriteRenderer.IsUnityNull())
-        {
-            Debug.LogError("Не получены компоненты SpriteRenderer.");
-        }
-        _standardColor = _spriteRenderer.color;
-        _currentHealth = _maxHealth;
-    }
-    private void Start()
-    {
-        if (_sendHealthToInterface)
-        {
-            EventManager.SendHealthToInterface(_currentHealth);
-        }
-    }
     public bool ApplyDamage(int damage = 0)
     {
         if (_currentHealth <= 0)
@@ -56,6 +36,26 @@ public class Health : MonoBehaviour
             Death();
         }
         return true;
+    }
+    private void Awake()
+    {
+        if (_spriteRenderer.IsUnityNull())
+        {
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+        if (_spriteRenderer.IsUnityNull())
+        {
+            Debug.LogError("Не получены компоненты SpriteRenderer.");
+        }
+        _standardColor = _spriteRenderer.color;
+        _currentHealth = _maxHealth;
+    }
+    private void Start()
+    {
+        if (_sendHealthToInterface)
+        {
+            EventManager.SendHealthToInterface(_currentHealth);
+        }
     }
     private void ReturnStandardColor()
     {
