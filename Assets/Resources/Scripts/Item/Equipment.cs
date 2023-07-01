@@ -1,26 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
-
 public class Equipment : MonoBehaviour
 {
-   [SerializeField] private SlotInInventory _leftWeapon;
+    [SerializeField] private SlotInInventory _leftWeapon;
     [SerializeField] private SlotInInventory _rightWeapon;
     [SerializeField] private SlotInInventory _helmet;
     [SerializeField] private SlotInInventory _body;
-    private Item _item;
-    public Item AddLeftWeapon(Item item)
+    private Item _movedItem;
+    public Item AddLeftWeapon(Item item) => AddItem(_leftWeapon, item);
+    public Item AddRightWeapon(Item item) => AddItem(_rightWeapon, item);
+    public Item AddHelmet(Item item) => AddItem(_helmet, item);
+    public Item AddBody(Item item) => AddItem(_body, item);
+    private void OnValidate()
     {
-        _item = _leftWeapon.Item;
-        _leftWeapon.AddItem(item);
-        if (IsEmpty())
-        {
-            _item = item;
-            AddSprite(_item.Settings.Icon);
-            return true;
-        }
-        return _item;
+        if (_leftWeapon == null)
+            Debug.LogError("LeftWeapon is Null in Equipment.");
+        if (_rightWeapon == null)
+            Debug.LogError("RightWeapon is Null in Equipment.");
+        if (_helmet == null)
+            Debug.LogError("Helmet is Null in Equipment.");
+        if (_body == null)
+            Debug.LogError("Body is Null in Equipment.");
+    }
+    private Item AddItem(SlotInInventory slot, Item item)
+    {
+        _movedItem = slot.Item;
+        slot.RemoveItem();
+        slot.AddItem(item);
+        return _movedItem;
     }
 
 }
