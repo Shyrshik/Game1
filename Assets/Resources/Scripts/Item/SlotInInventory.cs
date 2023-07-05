@@ -30,11 +30,15 @@ public class SlotInInventory : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     public bool IsEmpty() => _item == Item.Empty;
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(IsEmpty())
+        {
+            return;
+        }
+        _itemOnDrag.transform.position = transform.position;
+        _itemOnDrag.SetActiveImage(true);
         _itemOnDrag.RemoveItem();
         _itemOnDrag.AddItem(Item);
-        _itemOnDrag.transform.position = transform.position;
         RemoveItem();
-        _itemOnDrag.SetActiveImage(true);
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -46,7 +50,14 @@ public class SlotInInventory : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     public void SetActiveImage(bool active)
     {
-        _image.enabled = active;
+       if(active)
+        {
+            _image.color = Color.white;
+        }
+       else
+        {
+            _image.color = new Color(1,1,1,0);
+        }
     }
     protected virtual void Awake()
     {
