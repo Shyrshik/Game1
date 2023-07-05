@@ -4,10 +4,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class SlotInInventory : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class SlotInInventory : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
-    public Item Item { get => _item; }
-    protected Item _item = Item.Empty;
+    public IItem Item { get => _item; }
+    protected IItem _item = Item.Empty;
 
     private static Sprite _defaultSprite;
     private Image _image;
@@ -30,7 +30,7 @@ public class SlotInInventory : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     public bool IsEmpty() => _item == Item.Empty;
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(IsEmpty())
+        if (IsEmpty())
         {
             return;
         }
@@ -50,13 +50,13 @@ public class SlotInInventory : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     public void SetActiveImage(bool active)
     {
-       if(active)
+        if (active)
         {
             _image.color = Color.white;
         }
-       else
+        else
         {
-            _image.color = new Color(1,1,1,0);
+            _image.color = new Color(1, 1, 1, 0);
         }
     }
     protected virtual void Awake()
