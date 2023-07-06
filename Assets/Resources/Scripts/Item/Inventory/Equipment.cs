@@ -1,10 +1,10 @@
 using UnityEngine;
 public class Equipment : MonoBehaviour
 {
-    [SerializeField] private SlotInInventory _leftWeapon;
-    [SerializeField] private SlotInInventory _rightWeapon;
-    [SerializeField] private SlotInInventory _helmet;
-    [SerializeField] private SlotInInventory _body;
+    [SerializeField] private SlotInBag _leftWeapon;
+    [SerializeField] private SlotInBag _rightWeapon;
+    [SerializeField] private SlotInBag _helmet;
+    [SerializeField] private SlotInBag _body;
     private Item _movedItem;
     public Item AddLeftWeapon(Item item) => AddItem(_leftWeapon, item);
     public Item AddRightWeapon(Item item) => AddItem(_rightWeapon, item);
@@ -21,7 +21,7 @@ public class Equipment : MonoBehaviour
         if (_body == null)
             Debug.LogError("Body is Null in Equipment.");
     }
-    private Item AddItem(SlotInInventory slot, Item item)
+    private Item AddItem(SlotInBag slot, Item item)
     {
         _movedItem = slot.Item;
         slot.RemoveItem();

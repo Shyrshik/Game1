@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private WeaponSettings _defaultWeaponSettings;
     [SerializeField] private TextMeshPro _textAboveThePlayer;
+    [SerializeField] ItemSettings _armorSettings;
 
     private InputСontroller _inputController;
     private Moved _move;
@@ -54,6 +55,10 @@ public class Player : MonoBehaviour
         _inputController.Player.Run.canceled += context => NotRun();
 
         _inputController.Player.Action.performed += context => TakeItem();
+
+        Item armor = new Armor();
+        armor.Settings = _armorSettings;
+        _bag.AddItem(armor);
     }
 
     private void FixedUpdate()

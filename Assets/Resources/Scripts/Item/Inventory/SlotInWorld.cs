@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SlotInWorld : SlotInInventory
+public class SlotInWorld : SlotInBag
 {
         private Animator _animator;
     private SpriteRenderer _spriteRenderer;
