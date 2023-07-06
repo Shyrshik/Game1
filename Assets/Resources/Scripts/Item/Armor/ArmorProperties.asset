@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fa3706bf7f6004aa48e3df0eece8be, type: 3}
   m_Name: ArmorProperties
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: -664951258, guid: 3146f4568a7476d42a76d52467bf049a, type: 3}
   <Title>k__BackingField: 
   <Description>k__BackingField: 
