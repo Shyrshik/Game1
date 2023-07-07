@@ -17,7 +17,7 @@ public class SlotInWorld : SlotInBag
     {
         _spriteRenderer.sprite = sprite;
     }
-    protected override void RemoveSprite()
+    protected override void HideSprite()
     {
         Destroy(gameObject.transform.parent.gameObject);
     }
