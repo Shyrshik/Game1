@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class SlotInWorld : SlotInBag
+public class SlotInWorld : Slot
 {
-        private Animator _animator;
+    private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     public void PlayAnimation()
     {
         _animator.SetTrigger("PlayAnimation");
     }
-    protected override void Awake()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -17,9 +17,10 @@ public class SlotInWorld : SlotInBag
     {
         _spriteRenderer.sprite = sprite;
     }
-    protected override void HideSprite()
+    protected override void Remove()
     {
         Destroy(gameObject.transform.parent.gameObject);
     }
 
+    public override bool CanAdd(Item item) => true;
 }

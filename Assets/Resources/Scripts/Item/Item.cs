@@ -17,7 +17,7 @@ public class Item
             }
             else
             {
-                Debug.LogError("Ñan not be changed Settings.");
+                Debug.LogError("Can not be changed Settings.");
             }
         }
     }

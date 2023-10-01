@@ -3,35 +3,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class SlotInBag : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class SlotInBag : Slot, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     [SerializeField] private List<TypeOfItem> _typeOfItems;
-    public Item Item { get => IsEmpty ? null : _item; }
     public Image ImageBack { get; set; }
     public Image ImageFront { get; set; }
-    protected Item _item;
-    public bool IsEmpty { get => _isEmpty; }
-    protected bool _isEmpty;
     private Image _image;
-    private enum TypeOfItem
-    {
-        Any,
-        AnyWeapon,
-        AnyArmor,
-        None
-    }
-    public virtual bool AddItem(Item item)
-    {
-        if (IsEmpty && !item.IsUnityNull() && CanAdd(item))
-        {
-            _isEmpty = false;
-            _item = item;
-            AddSprite(_item.Settings.Icon);
-            return true;
-        }
-        return false;
-    }
-    public bool CanAdd(Item item)
+    public override bool CanAdd(Item item)
     {
         foreach (var type in _typeOfItems)
         {
@@ -49,17 +27,10 @@ public class SlotInBag : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IB
         }
         return false;
     }
-    public void RemoveItem()
-    {
-        _isEmpty = true;
-        _item = null;
-        HideSprite();
-    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (IsEmpty)
         {
-            eventData.Reset();
             return;
         }
         InventoryManager.Cursor.transform.position = transform.position;
@@ -71,10 +42,18 @@ public class SlotInBag : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IB
     }
     public void OnDrag(PointerEventData eventData)
     {
+        if (IsEmpty)
+        {
+            return;
+        }
         InventoryManager.OnDrag();
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (IsEmpty)
+        {
+            return;
+        }
         InventoryManager.Cursor.color = Color.clear;
         InventoryManager.OnEndDrag();
         ISlot target;
@@ -94,7 +73,7 @@ public class SlotInBag : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IB
             UnhideSprite();
         }
     }
-    protected virtual void Awake()
+    private void Awake()
     {
         _image = GetComponent<Image>();
         RemoveItem();
@@ -114,16 +93,20 @@ public class SlotInBag : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IB
             _typeOfItems.Add(TypeOfItem.Any);
         }
     }
-    protected virtual void AddSprite(Sprite sprite)
+    protected override void AddSprite(Sprite sprite)
     {
         UnhideSprite();
         _image.sprite = sprite;
     }
-    protected virtual void UnhideSprite()
+    protected override void Remove()
+    {
+        HideSprite();
+    }
+    private void UnhideSprite()
     {
         _image.color = Color.white;
     }
-    protected virtual void HideSprite()
+    private void HideSprite()
     {
         _image.color = Color.clear;
     }

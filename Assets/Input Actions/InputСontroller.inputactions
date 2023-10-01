@@ -67,15 +67,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Mouse",
-                    "type": "Value",
-                    "id": "e8b31d18-67eb-4824-8017-601c120ffa89",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -441,17 +432,6 @@
                     "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e2e7cbdd-5a2b-4bb5-a5b8-c677e57bedaa",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC;Gamepad",
-                    "action": "Mouse",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -469,13 +449,22 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Mouse",
-                    "type": "Value",
-                    "id": "5d16827b-265e-40d0-85f0-d37f4d91647e",
-                    "expectedControlType": "Vector2",
+                    "name": "Apply",
+                    "type": "Button",
+                    "id": "566e5d9a-02d7-4a6e-963a-6c6fbff5da4b",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "315bfc71-be03-4819-9410-1d29f17ad224",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -701,12 +690,23 @@
                 },
                 {
                     "name": "",
-                    "id": "8aadfb13-ca64-4ec2-85fa-0a771efb725d",
-                    "path": "<Mouse>/position",
+                    "id": "0f95860f-d86c-4299-bfa7-fad2fb053058",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PC;Gamepad",
-                    "action": "Mouse",
+                    "groups": "",
+                    "action": "Apply",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a13e043c-40bb-4b82-a18e-a691a54dd138",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
