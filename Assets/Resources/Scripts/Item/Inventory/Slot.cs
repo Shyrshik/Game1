@@ -7,7 +7,7 @@ public abstract class Slot : MonoBehaviour, ISlot
     protected Item _item;
 
     public bool IsEmpty { get => _isEmpty; }
-    protected bool _isEmpty;
+    protected bool _isEmpty = true;
 
     public virtual bool AddItem(Item item)
     {

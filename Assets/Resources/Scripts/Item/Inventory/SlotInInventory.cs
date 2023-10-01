@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public class SlotInBag : Slot, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class SlotInInventory : Slot, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     [SerializeField] private List<TypeOfItem> _typeOfItems;
     public Image ImageBack { get; set; }

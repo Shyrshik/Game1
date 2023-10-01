@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Sprite _slotFrontNotActivity;
     [SerializeField] private Sprite _slotFrontEnable;
     [SerializeField] private Sprite _slotFrontDisable;
-    private static SlotInBag[] _slots;
+    private static SlotInInventory[] _slots;
     public static Image Cursor { get; private set; }
     public static class SlotSprite
     {
@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour
         SlotSprite.FrontNotActivity = _slotFrontNotActivity;
         SlotSprite.FrontEnable = _slotFrontEnable;
         SlotSprite.FrontDisable = _slotFrontDisable;
-        _slots= GetComponentsInChildren<SlotInBag>();
+        _slots= GetComponentsInChildren<SlotInInventory>();
         SetSlotBack();
         OnEndDrag();
     }

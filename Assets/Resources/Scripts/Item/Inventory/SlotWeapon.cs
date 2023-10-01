@@ -1,5 +1,5 @@
 using Unity.VisualScripting;
-public class SlotWeapon : SlotInBag
+public class SlotWeapon : SlotInInventory
 {
     public override bool AddItem(Item item)
     {
