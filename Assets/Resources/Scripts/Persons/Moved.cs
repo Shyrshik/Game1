@@ -61,7 +61,7 @@ public class Moved : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody2D>();
         if (_animator.IsUnityNull() || _spriteRenderer.IsUnityNull() || _rigidBody.IsUnityNull())
         { 
-            Debug.LogError("Не получены компоненты Animator, SpriteRenderer или Rigidbody2D.");
+            Debug.LogError("РќРµ РїРѕР»СѓС‡РµРЅС‹ РєРѕРјРїРѕРЅРµРЅС‚С‹ Animator, SpriteRenderer РёР»Рё Rigidbody2D.");
         }
         SetRun(false);
     }
