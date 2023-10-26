@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[DisallowMultipleComponent]
 public class Bag : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;

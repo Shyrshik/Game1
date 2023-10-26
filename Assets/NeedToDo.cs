@@ -1,3 +1,4 @@
+#pragma warning disable
 public class NeedToDo
 {
     // проплывание тени от облаков
