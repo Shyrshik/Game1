@@ -1,3 +1,4 @@
+using Items;
 using UnityEngine;
 [DisallowMultipleComponent]
 public class Enemy : MonoBehaviour

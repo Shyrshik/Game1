@@ -1,10 +1,11 @@
+using Items;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Moved)),
-    RequireComponent(typeof(Bag))]
+    RequireComponent(typeof(Equipment))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private WeaponSettings _defaultWeaponSettings;
@@ -13,7 +14,7 @@ public class Player : MonoBehaviour
 
     private InputСontroller _inputController;
     private Moved _move;
-    private Bag _bag;
+    private Equipment _bag;
     private Weapon _defaultWeapon;
     private Weapon _firstWeapon;
     private Weapon _secondWeapon;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     {
         _inputController = new();
         _move = GetComponentInChildren<Moved>();
-        _bag = GetComponentInChildren<Bag>();
+        _bag = GetComponentInChildren<Equipment>();
         if (_textAboveThePlayer.IsUnityNull())
         {
             _textAboveThePlayer = GetComponentInChildren<TextMeshPro>();

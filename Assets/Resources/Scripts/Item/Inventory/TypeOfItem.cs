@@ -1,7 +1,10 @@
-public enum TypeOfItem
+namespace Items
 {
-    Any,
-    AnyWeapon,
-    AnyArmor,
-    None
+    public enum TypeOfItem
+    {
+        Any,
+        AnyWeapon,
+        AnyArmor,
+        None
+    }
 }

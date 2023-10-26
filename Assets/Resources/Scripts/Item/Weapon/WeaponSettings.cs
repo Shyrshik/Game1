@@ -1,3 +1,4 @@
+using Items;
 using UnityEngine;
 
 public abstract class WeaponSettings : ItemSettings

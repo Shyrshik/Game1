@@ -1,25 +1,28 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Item
+namespace Items
 {
-    public ItemSettings Settings
+    public class Item
     {
-        get
+        public ItemSettings Settings
         {
-            return _settings;
-        }
-        set
-        {
-            if (_settings.IsUnityNull())
+            get
             {
-                _settings = value;
+                return _settings;
             }
-            else
+            set
             {
-                Debug.LogError("Can not be changed Settings.");
+                if (_settings.IsUnityNull())
+                {
+                    _settings = value;
+                }
+                else
+                {
+                    Debug.LogError("Can not be changed Settings.");
+                }
             }
         }
+        [SerializeField] private ItemSettings _settings = null;
     }
-    [SerializeField] private ItemSettings _settings = null;
 }

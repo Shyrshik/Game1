@@ -1,26 +1,38 @@
 using UnityEngine;
 
-public class SlotInWorld : Slot
+namespace Items
 {
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
-    public void PlayAnimation()
+    public class SlotInWorld : MonoBehaviour
     {
-        _animator.SetTrigger("PlayAnimation");
+        private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
+        private readonly SlotSimple _slot = new();
+        public void PlayAnimation()
+        {
+            _animator.SetTrigger("PlayAnimation");
+        }
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        private void AddSprite()
+        {
+            _spriteRenderer.sprite = _slot.Item.Settings.Icon;
+        }
+        private void Remove()
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
+        private void OnEnable()
+        {
+            _slot.ItemAdded += AddSprite;
+            _slot.ItemRemoved += Remove;
+        }
+        private void OnDisable()
+        {
+            _slot.ItemAdded -= AddSprite;
+            _slot.ItemRemoved -= Remove;
+        }
     }
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-    protected override void AddSprite(Sprite sprite)
-    {
-        _spriteRenderer.sprite = sprite;
-    }
-    protected override void Remove()
-    {
-        Destroy(gameObject.transform.parent.gameObject);
-    }
-
-    public override bool CanAdd(Item item) => true;
 }

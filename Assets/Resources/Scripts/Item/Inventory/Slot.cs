@@ -1,36 +1,36 @@
+using System;
 using Unity.VisualScripting;
-using UnityEngine;
 
-public abstract class Slot : MonoBehaviour, ISlot
+namespace Items
 {
-    public Item Item { get => IsEmpty ? null : _item; }
-    protected Item _item;
-
-    public bool IsEmpty { get => _isEmpty; }
-    protected bool _isEmpty = true;
-
-    public virtual bool AddItem(Item item)
+    public abstract class Slot : ISlot
     {
-        if (IsEmpty && !item.IsUnityNull() && CanAdd(item))
+        public Item Item { get => IsEmpty ? null : _item; }
+        private Item _item;
+
+        public bool IsEmpty { get => _isEmpty; }
+        protected bool _isEmpty = true;
+        public event Action ItemAdded;
+        public Action ItemRemoved;
+        public bool AddItem(Item item)
         {
-            _isEmpty = false;
-            _item = item;
-            AddSprite(_item.Settings.Icon);
-            return true;
+            if (IsEmpty && !item.IsUnityNull() && CanAdd(item))
+            {
+                _isEmpty = false;
+                _item = item;
+                ItemAdded();
+                return true;
+            }
+            return false;
         }
-        return false;
+
+        public abstract bool CanAdd(Item item);
+
+        public void RemoveItem()
+        {
+            _isEmpty = true;
+            _item = null;
+            ItemRemoved();
+        }
     }
-
-    public abstract bool CanAdd(Item item);
-
-    public void RemoveItem()
-    {
-        _isEmpty = true;
-        _item = null;
-        Remove();
-    }
-
-    protected abstract void AddSprite(Sprite sprite);
-
-    protected abstract void Remove();
 }
