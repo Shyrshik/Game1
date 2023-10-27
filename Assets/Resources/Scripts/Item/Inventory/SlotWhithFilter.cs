@@ -5,17 +5,32 @@ namespace Items
 {
     public class SlotWithFilter : Slot
     {
-        [SerializeField] private List<TypeOfItem> _typeOfItems;
+        [SerializeField] private List<TypeOfItems> _typeOfItem;
+        public List<TypeOfItems> TypeOfItem
+        {
+            get => _typeOfItem;
+            set
+            {
+                if (IsEmpty)
+                {
+                    _typeOfItem = value;
+                }
+                else
+                {
+                    Debug.LogError("TypeOfItem not set, slot is not Empty.");
+                }
+            }
+        }
         public override bool CanAdd(Item item)
         {
-            foreach (var type in _typeOfItems)
+            foreach (var type in _typeOfItem)
             {
                 if (type switch
                 {
-                    TypeOfItem.Any => item is Item,
-                    TypeOfItem.AnyWeapon => item is Weapon,
-                    TypeOfItem.AnyArmor => item is Armor,
-                    TypeOfItem.None => false,
+                    TypeOfItems.Any => item is Item,
+                    TypeOfItems.AnyWeapon => item is Weapon,
+                    TypeOfItems.AnyArmor => item is Armor,
+                    TypeOfItems.None => false,
                     _ => false,
                 })
                 {

@@ -1,47 +1,36 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Items
 {
-    public class SlotInInventory :MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IBeginDragHandler
+    public class SlotInInventory : MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
-        [SerializeField] private List<TypeOfItem> _typeOfItems;
+        [SerializeField] private List<TypeOfItems> _typeOfItems;
         public Image ImageBack { get; set; }
         public Image ImageFront { get; set; }
+        public ISlot Slot { get; set; }
+        public Item Item => Slot.Item;
+        public bool IsEmpty => Slot.IsEmpty;
+
         private Image _image;
-        public override bool CanAdd(Item item)
-        {
-            foreach (var type in _typeOfItems)
-            {
-                if (type switch
-                {
-                    TypeOfItem.Any => item is Item,
-                    TypeOfItem.AnyWeapon => item is Weapon,
-                    TypeOfItem.AnyArmor => item is Armor,
-                    TypeOfItem.None => false,
-                    _ => false,
-                })
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+
+        public bool AddItem(Item item) => Slot.AddItem(item);
+        public bool CanAdd(Item item) => Slot.CanAdd(item);
+        public void RemoveItem() => Slot.RemoveItem();
         public void OnBeginDrag(PointerEventData eventData)
         {
-            //if (IsEmpty)
-            //{
-            //    return;
-            //}
-            //InventoryManager.Cursor.transform.position = transform.position;
-            //InventoryManager.Cursor.color = Color.white;
-            //InventoryManager.Cursor.sprite = _item.Settings.Icon;
-            //HideSprite();
-            //InventoryManager.OnBeginDrag(_item);
-            //ImageFront.sprite = InventoryManager.SlotSprite.FrontNotActivity;
+            if (IsEmpty)
+            {
+                return;
+            }
+            InventoryManager.Cursor.transform.position = transform.position;
+            InventoryManager.Cursor.color = Color.white;
+            InventoryManager.Cursor.sprite = Item.Settings.Icon;
+            HideSprite();
+            InventoryManager.OnBeginDrag(Item);
+            ImageFront.sprite = InventoryManager.SlotSprite.FrontNotActivity;
         }
         public void OnDrag(PointerEventData eventData)
         {
@@ -93,15 +82,15 @@ namespace Items
         {
             if (_typeOfItems.Count < 1)
             {
-                _typeOfItems.Add(TypeOfItem.Any);
+                _typeOfItems.Add(TypeOfItems.Any);
             }
         }
-        protected  void Add(Sprite sprite)
+        protected void Add(Sprite sprite)
         {
             UnhideSprite();
             _image.sprite = sprite;
         }
-        protected  void Remove()
+        protected void Remove()
         {
             HideSprite();
         }

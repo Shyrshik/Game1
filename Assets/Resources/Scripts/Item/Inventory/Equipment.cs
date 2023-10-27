@@ -7,10 +7,10 @@ public class Equipment : MonoBehaviour
     //[SerializeField] private GameObject _inventory;
     //[SerializeField] private Transform _items;
     //[SerializeField] private GameObject _slot;
-    [SerializeField] private List<TypeOfItem> _helmetType  = new(1){TypeOfItem.None};
-    [SerializeField] private List<TypeOfItem> _bodyArmorType = new(1){TypeOfItem.None};
-    [SerializeField] private List<TypeOfItem> _leftWeaponType = new(1){TypeOfItem.None};
-    [SerializeField] private List<TypeOfItem> _rightWeaponType = new(1){TypeOfItem.None};
+    [SerializeField] private List<TypeOfItems> _helmetType  = new(1){TypeOfItems.None};
+    [SerializeField] private List<TypeOfItems> _bodyArmorType = new(1){TypeOfItems.None};
+    [SerializeField] private List<TypeOfItems> _leftWeaponType = new(1){TypeOfItems.None};
+    [SerializeField] private List<TypeOfItems> _rightWeaponType = new(1){TypeOfItems.None};
     public int ItemAmountInBag
     {
         get
@@ -30,7 +30,7 @@ public class Equipment : MonoBehaviour
         }
     }
     [SerializeField, Min(1)] private int _itemAmountInBag = 1;
-    [SerializeField] private List<TypeOfItem> _itemsInBagType = new(1){TypeOfItem.Any};
+    [SerializeField] private List<TypeOfItems> _itemsInBagType = new(1){TypeOfItems.Any};
     private Canvas _canvas;
     private SlotInInventory[] _slots;
     private InputСontroller _inputController;

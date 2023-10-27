@@ -1,6 +1,6 @@
 namespace Items
 {
-    public enum TypeOfItem
+    public enum TypeOfItems
     {
         Any,
         AnyWeapon,

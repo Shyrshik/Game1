@@ -13,7 +13,7 @@ namespace Items
         public event Action Removed;
         public bool AddItem(Item item)
         {
-            if (IsEmpty && (item != null) && CanAdd(item))
+            if (IsEmpty && (item is not null) && CanAdd(item))
             {
                 _isEmpty = false;
                 _item = item;
