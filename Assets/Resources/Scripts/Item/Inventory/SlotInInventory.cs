@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Items
 {
-    public class SlotInInventory : Slot, IDragHandler, IEndDragHandler, IBeginDragHandler
+    public class SlotInInventory :MonoBehaviour, ISlot, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
         [SerializeField] private List<TypeOfItem> _typeOfItems;
         public Image ImageBack { get; set; }
@@ -32,16 +32,16 @@ namespace Items
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (IsEmpty)
-            {
-                return;
-            }
-            InventoryManager.Cursor.transform.position = transform.position;
-            InventoryManager.Cursor.color = Color.white;
-            InventoryManager.Cursor.sprite = _item.Settings.Icon;
-            HideSprite();
-            InventoryManager.OnBeginDrag(_item);
-            ImageFront.sprite = InventoryManager.SlotSprite.FrontNotActivity;
+            //if (IsEmpty)
+            //{
+            //    return;
+            //}
+            //InventoryManager.Cursor.transform.position = transform.position;
+            //InventoryManager.Cursor.color = Color.white;
+            //InventoryManager.Cursor.sprite = _item.Settings.Icon;
+            //HideSprite();
+            //InventoryManager.OnBeginDrag(_item);
+            //ImageFront.sprite = InventoryManager.SlotSprite.FrontNotActivity;
         }
         public void OnDrag(PointerEventData eventData)
         {
@@ -53,41 +53,41 @@ namespace Items
         }
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (IsEmpty)
-            {
-                return;
-            }
-            InventoryManager.Cursor.color = Color.clear;
-            InventoryManager.OnEndDrag();
-            ISlot target;
-            if (!eventData.pointerCurrentRaycast.gameObject.IsUnityNull() &&
-                eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out target) &&
-                target.CanAdd(_item) &&
-               (target.IsEmpty || CanAdd(target.Item)))
-            {
-                Item targetItem = target.Item;
-                target.RemoveItem();
-                target.AddItem(_item);
-                RemoveItem();
-                AddItem(targetItem);
-            }
-            else
-            {
-                UnhideSprite();
-            }
+            //if (IsEmpty)
+            //{
+            //    return;
+            //}
+            //InventoryManager.Cursor.color = Color.clear;
+            //InventoryManager.OnEndDrag();
+            //ISlot target;
+            //if (!eventData.pointerCurrentRaycast.gameObject.IsUnityNull() &&
+            //    eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out target) &&
+            //    target.CanAdd(_item) &&
+            //   (target.IsEmpty || CanAdd(target.Item)))
+            //{
+            //    Item targetItem = target.Item;
+            //    target.RemoveItem();
+            //    target.AddItem(_item);
+            //    RemoveItem();
+            //    AddItem(targetItem);
+            //}
+            //else
+            //{
+            //    UnhideSprite();
+            //}
         }
         private void Awake()
         {
-            _image = GetComponent<Image>();
-            RemoveItem();
-            ImageBack = GetComponentInParent<Image>();
-            foreach (var image in GetComponentsInChildren<Image>())
-            {
-                if (image != _image)
-                {
-                    ImageFront = image;
-                }
-            }
+            //_image = GetComponent<Image>();
+            //RemoveItem();
+            //ImageBack = GetComponentInParent<Image>();
+            //foreach (var image in GetComponentsInChildren<Image>())
+            //{
+            //    if (image != _image)
+            //    {
+            //        ImageFront = image;
+            //    }
+            //}
         }
         private void OnValidate()
         {
@@ -96,12 +96,12 @@ namespace Items
                 _typeOfItems.Add(TypeOfItem.Any);
             }
         }
-        protected override void Add(Sprite sprite)
+        protected  void Add(Sprite sprite)
         {
             UnhideSprite();
             _image.sprite = sprite;
         }
-        protected override void Remove()
+        protected  void Remove()
         {
             HideSprite();
         }

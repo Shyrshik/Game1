@@ -1,30 +1,36 @@
 using Items;
+using System.Collections.Generic;
 using UnityEngine;
 [DisallowMultipleComponent]
 public class Equipment : MonoBehaviour
 {
-    [SerializeField] private GameObject _inventory;
-    [SerializeField] private Transform _items;
-    [SerializeField] private GameObject _slot;
-    public int ItemAmount
+    //[SerializeField] private GameObject _inventory;
+    //[SerializeField] private Transform _items;
+    //[SerializeField] private GameObject _slot;
+    [SerializeField] private List<TypeOfItem> _helmetType  = new(1){TypeOfItem.None};
+    [SerializeField] private List<TypeOfItem> _bodyArmorType = new(1){TypeOfItem.None};
+    [SerializeField] private List<TypeOfItem> _leftWeaponType = new(1){TypeOfItem.None};
+    [SerializeField] private List<TypeOfItem> _rightWeaponType = new(1){TypeOfItem.None};
+    public int ItemAmountInBag
     {
         get
         {
-            return _itemAmount;
+            return _itemAmountInBag;
         }
         set
         {
             if (value < 1)
             {
-                _itemAmount = 1;
+                _itemAmountInBag = 1;
             }
             else
             {
-                _itemAmount = value;
+                _itemAmountInBag = value;
             }
         }
     }
-    [SerializeField, Min(1)] private int _itemAmount = 5;
+    [SerializeField, Min(1)] private int _itemAmountInBag = 1;
+    [SerializeField] private List<TypeOfItem> _itemsInBagType = new(1){TypeOfItem.Any};
     private Canvas _canvas;
     private SlotInInventory[] _slots;
     private InputСontroller _inputController;
@@ -33,15 +39,15 @@ public class Equipment : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < _itemAmount; i++)
-        {
-            Instantiate(_slot, _items);
-        }
-        _slots = _items.GetComponentsInChildren<SlotInInventory>();
-        _canvas = _inventory.GetComponent<Canvas>();
-        _inputController = new();
-        _inputController.Player.Inventory.performed += context => Open();
-        Open();
+        //for (int i = 0; i < _itemAmountInBag; i++)
+        //{
+        //    Instantiate(_slot, _items);
+        //}
+        //_slots = _items.GetComponentsInChildren<SlotInInventory>();
+        //_canvas = _inventory.GetComponent<Canvas>();
+        //_inputController = new();
+        //_inputController.Player.Inventory.performed += context => Open();
+        //Open();
     }
     public bool AddItem(Item Item1)
     {
