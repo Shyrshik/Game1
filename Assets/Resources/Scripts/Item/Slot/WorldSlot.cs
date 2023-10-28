@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Items
 {
-    public class SlotInWorld : MonoBehaviour, ISlot
+    public class WorldSlot : MonoBehaviour, ISlot
     {
         public Item Item => _slot.Item;
         public bool IsEmpty => _slot.IsEmpty;

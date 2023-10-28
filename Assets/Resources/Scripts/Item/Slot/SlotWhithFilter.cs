@@ -6,6 +6,21 @@ namespace Items
     public class SlotWithFilter : Slot
     {
         [SerializeField] private List<TypeOfItems> _typeOfItem;
+
+        public SlotWithFilter():this(new List<TypeOfItems>{ TypeOfItems.Any }) {        }
+
+        public SlotWithFilter(List<TypeOfItems> typeOfItem)
+        {
+            if (typeOfItem is null)
+            {
+                _typeOfItem = new List<TypeOfItems> { TypeOfItems.None };
+            }
+            else
+            {
+                _typeOfItem = typeOfItem;
+            }
+        }
+
         public List<TypeOfItems> TypeOfItem
         {
             get => _typeOfItem;

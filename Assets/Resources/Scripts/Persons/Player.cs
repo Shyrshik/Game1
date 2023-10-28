@@ -14,18 +14,18 @@ public class Player : MonoBehaviour
 
     private InputСontroller _inputController;
     private Moved _move;
-    private Equipment _bag;
+    private Equipment _equipment;
     private Weapon _defaultWeapon;
     private Weapon _firstWeapon;
     private Weapon _secondWeapon;
-    private LayerMask _MyEnemies;
-    private SlotInWorld _itemInWorld;
+    private LayerMask _myEnemies;
+    private WorldSlot _itemInWorld;
 
     private void Awake()
     {
         _inputController = new();
         _move = GetComponentInChildren<Moved>();
-        _bag = GetComponentInChildren<Equipment>();
+        _equipment = GetComponentInChildren<Equipment>();
         if (_textAboveThePlayer.IsUnityNull())
         {
             _textAboveThePlayer = GetComponentInChildren<TextMeshPro>();
@@ -34,32 +34,34 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-        _MyEnemies = LayerMask.GetMask("Enemies");
+        _myEnemies = LayerMask.GetMask("Enemies");
 
         _defaultWeapon = _defaultWeaponSettings.GetNewWeapon(1);
 
         _firstWeapon = WeaponSpawner.GetRandomWeapon(1);
-        _firstWeapon.EnemyLayers = _MyEnemies;
+        _firstWeapon.EnemyLayers = _myEnemies;
         _firstWeapon.OwnerTransform = transform;
         _inputController.Player.FirstWeapon.performed += context => ControlFirstWeapon();
         ControlFirstWeapon();
-        _bag.AddItem(_firstWeapon);
+        _equipment.LeftWeapon.AddItem(_firstWeapon);
 
         _secondWeapon = WeaponSpawner.GetRandomWeapon(1);
-        _secondWeapon.EnemyLayers = _MyEnemies;
+        _secondWeapon.EnemyLayers = _myEnemies;
         _secondWeapon.OwnerTransform = transform;
         _inputController.Player.SecondWeapon.performed += context => ControlSecondWeapon();
         ControlSecondWeapon();
-        _bag.AddItem(_secondWeapon);
+        _equipment.RightWeapon.AddItem(_secondWeapon);
 
         _inputController.Player.Run.performed += context => Run();
         _inputController.Player.Run.canceled += context => NotRun();
 
         _inputController.Player.Action.performed += context => TakeItem();
 
-        Item armor = new Armor();
-        armor.Settings = _armorSettings;
-        _bag.AddItem(armor);
+        Item armor = new Armor
+        {
+            Settings = _armorSettings
+        };
+        _equipment.AddItemToEmptySlot(armor);
     }
 
     private void FixedUpdate()
@@ -100,7 +102,7 @@ public class Player : MonoBehaviour
     private void OnDisable() => _inputController.Disable();
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _itemInWorld = collision.gameObject.GetComponentInChildren<SlotInWorld>();
+        _itemInWorld = collision.gameObject.GetComponentInChildren<WorldSlot>();
         if (!_itemInWorld.IsUnityNull())
         {
             _textAboveThePlayer.text = "Get\r\n" + _itemInWorld.Item.Settings.Title;
@@ -108,7 +110,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (_itemInWorld == collision.gameObject.GetComponentInChildren<SlotInWorld>())
+        if (_itemInWorld == collision.gameObject.GetComponentInChildren<WorldSlot>())
         {
             _textAboveThePlayer.text = "";
             _itemInWorld = null;
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
         if (!_itemInWorld.IsUnityNull())
         {
 
-            if (_bag.AddItem(_itemInWorld.Item))
+            if (_equipment.AddItemToEmptySlot(_itemInWorld.Item))
             {
                 _itemInWorld.RemoveItem();
             }
