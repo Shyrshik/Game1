@@ -2,6 +2,7 @@ using Items;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XInput;
 using UnityEngine.UI;
 
 namespace Menu
@@ -13,7 +14,7 @@ namespace Menu
         [SerializeField] private Sprite _slotFrontNotActivity;
         [SerializeField] private Sprite _slotFrontEnable;
         [SerializeField] private Sprite _slotFrontDisable;
-        [SerializeField] private Transform _bagSlots;
+        [SerializeField] private Transform _bagSlotsConteiner;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Equipment _equipment;
         [SerializeField] private InventorySlot _helmet;
@@ -50,6 +51,15 @@ namespace Menu
         {
             RestoreSlotFrontStatus();
         }
+        public void RefreshSlots()
+        {
+            if (_actualEquipment != _equipment)
+            {
+                SetSlots();
+                _actualEquipment = _equipment;
+            }
+            RestoreSlotFrontStatus();
+        }
         public void SetSlots()
         {
             ClearAllSlots();
@@ -60,9 +70,10 @@ namespace Menu
             GameObject instance = null;
             foreach (ISlot slot in Equipment.Bag)
             {
-                instance = Instantiate(_slotPrefab, _bagSlots);
+                instance = Instantiate(_slotPrefab, _bagSlotsConteiner);
                 instance.GetComponentInChildren<InventorySlot>().Slot = slot;
             }
+            _slots = GetComponentsInChildren<InventorySlot>();
         }
         public void ClearAllSlots()
         {
@@ -71,10 +82,11 @@ namespace Menu
             _leftWeapon.Slot = null;
             _rightWeapon.Slot = null;
             List<Transform> slots = new List<Transform>();
-            _bagSlots.GetComponentsInChildren(slots);
+            _bagSlotsConteiner.GetComponentsInChildren(slots);
             foreach (Transform t in slots)
             {
-                if (t is null)
+                if (t is null ||
+                    t == _bagSlotsConteiner)
                 {
                     continue;
                 }
@@ -94,7 +106,7 @@ namespace Menu
             {
                 Debug.LogError("Not set Slot Sprite in Inventory!");
             }
-            if (_bagSlots is null)
+            if (_bagSlotsConteiner is null)
             {
                 Debug.LogError("Not set bagSlots in Inventory!");
             }
@@ -118,10 +130,11 @@ namespace Menu
             SlotSprite.FrontNotActivity = _slotFrontNotActivity;
             SlotSprite.FrontEnable = _slotFrontEnable;
             SlotSprite.FrontDisable = _slotFrontDisable;
-            _slots = GetComponentsInChildren<InventorySlot>();
-            SetSlotBack();
-            OnEndDrag();
+            //_slots = GetComponentsInChildren<InventorySlot>();
+            //SetSlotBack();
+            //OnEndDrag();
             _canvas = GetComponent<Canvas>();
+            _inputController = new();
             _inputController.Player.Inventory.performed += context => Open();
             Open();
         }
@@ -168,6 +181,7 @@ namespace Menu
                 Time.timeScale = 0f;
                 _open = true;
                 _canvas.enabled = true;
+                RefreshSlots();
             }
         }
         private void OnEnable() => _inputController.Enable();

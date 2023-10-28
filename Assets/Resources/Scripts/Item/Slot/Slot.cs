@@ -17,7 +17,7 @@ namespace Items
             {
                 _isEmpty = false;
                 _item = item;
-                Added();
+                if (Added is not null) Added();
                 return true;
             }
             return false;
@@ -29,7 +29,7 @@ namespace Items
         {
             _isEmpty = true;
             _item = null;
-            Removed();
+            if (Removed is not null) Removed();
         }
     }
 }

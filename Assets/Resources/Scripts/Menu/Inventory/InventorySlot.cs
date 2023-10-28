@@ -37,7 +37,7 @@ namespace Menu
         public void RemoveItem() => Slot.RemoveItem();
         public void Refresh()
         {
-            if (_slot is not null ||
+            if (_slot is not null &&
                 Item is not null)
             {
                 _image.sprite = Item.Settings.Icon;
