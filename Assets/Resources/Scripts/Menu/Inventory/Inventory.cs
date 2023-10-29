@@ -2,19 +2,18 @@ using Items;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XInput;
 using UnityEngine.UI;
 
 namespace Menu
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory : MonoBehaviour, IMenu
     {
         [SerializeField] private Image _cursor;
         [SerializeField] private Sprite _slotBack;
         [SerializeField] private Sprite _slotFrontNotActivity;
         [SerializeField] private Sprite _slotFrontEnable;
         [SerializeField] private Sprite _slotFrontDisable;
-        [SerializeField] private Transform _bagSlotsConteiner;
+        [SerializeField] private Transform _bagSlotsContainer;
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private Equipment _equipment;
         [SerializeField] private InventorySlot _helmet;
@@ -26,12 +25,10 @@ namespace Menu
             get => _equipment;
             set => _equipment = value;
         }
-        private static InventorySlot[] _slots;
         public static Image Cursor { get; private set; }
-        private Canvas _canvas;
-        private bool _open = true;
-        private InputСontroller _inputController;
+        private static InventorySlot[] _slots;
         private Equipment _actualEquipment;
+        private Canvas _inventoryCanvas;
         public static class SlotSprite
         {
             public static Sprite Back { get; set; }
@@ -70,7 +67,7 @@ namespace Menu
             GameObject instance = null;
             foreach (ISlot slot in Equipment.Bag)
             {
-                instance = Instantiate(_slotPrefab, _bagSlotsConteiner);
+                instance = Instantiate(_slotPrefab, _bagSlotsContainer);
                 instance.GetComponentInChildren<InventorySlot>().Slot = slot;
             }
             _slots = GetComponentsInChildren<InventorySlot>();
@@ -82,16 +79,37 @@ namespace Menu
             _leftWeapon.Slot = null;
             _rightWeapon.Slot = null;
             List<Transform> slots = new List<Transform>();
-            _bagSlotsConteiner.GetComponentsInChildren(slots);
+            _bagSlotsContainer.GetComponentsInChildren(slots);
             foreach (Transform t in slots)
             {
                 if (t is null ||
-                    t == _bagSlotsConteiner)
+                    t == _bagSlotsContainer)
                 {
                     continue;
                 }
                 Destroy(t);
             }
+        }
+        public void Hide()
+        {
+            if (_inventoryCanvas is not null)
+                _inventoryCanvas.enabled = false;
+        }
+        public void Show()
+        {
+            if (_inventoryCanvas is not null)
+                _inventoryCanvas.enabled = true;
+            RefreshSlots();
+            RefreshAllItems();
+        }
+        private void Awake()
+        {
+            Cursor = _cursor;
+            SlotSprite.Back = _slotBack;
+            SlotSprite.FrontNotActivity = _slotFrontNotActivity;
+            SlotSprite.FrontEnable = _slotFrontEnable;
+            SlotSprite.FrontDisable = _slotFrontDisable;
+            _inventoryCanvas = GetComponent<Canvas>();
         }
         private void OnValidate()
         {
@@ -106,7 +124,7 @@ namespace Menu
             {
                 Debug.LogError("Not set Slot Sprite in Inventory!");
             }
-            if (_bagSlotsConteiner is null)
+            if (_bagSlotsContainer is null)
             {
                 Debug.LogError("Not set bagSlots in Inventory!");
             }
@@ -122,21 +140,6 @@ namespace Menu
                 Debug.LogError("Helmet is Null in Inventory.");
             if (_body is null)
                 Debug.LogError("Body is Null in Inventory.");
-        }
-        private void Awake()
-        {
-            Cursor = _cursor;
-            SlotSprite.Back = _slotBack;
-            SlotSprite.FrontNotActivity = _slotFrontNotActivity;
-            SlotSprite.FrontEnable = _slotFrontEnable;
-            SlotSprite.FrontDisable = _slotFrontDisable;
-            //_slots = GetComponentsInChildren<InventorySlot>();
-            //SetSlotBack();
-            //OnEndDrag();
-            _canvas = GetComponent<Canvas>();
-            _inputController = new();
-            _inputController.Player.Inventory.performed += context => Open();
-            Open();
         }
         private static void SetSlotBack()
         {
@@ -168,23 +171,13 @@ namespace Menu
                 slot.ImageFront.color = Color.clear;
             }
         }
-        public void Open()
+        private static void RefreshAllItems()
         {
-            if (_open)
+            foreach (var slot in _slots)
             {
-                Time.timeScale = 1f;
-                _open = false;
-                _canvas.enabled = false;
-            }
-            else
-            {
-                Time.timeScale = 0f;
-                _open = true;
-                _canvas.enabled = true;
-                RefreshSlots();
+                slot.Refresh();
             }
         }
-        private void OnEnable() => _inputController.Enable();
-        private void OnDisable() => _inputController.Disable();
+
     }
 }

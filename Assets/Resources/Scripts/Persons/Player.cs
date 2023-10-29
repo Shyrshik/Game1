@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
     }
     private void TakeItem()
     {
-        if (!_itemInWorld.IsUnityNull())
+        if (_itemInWorld is not null)
         {
 
             if (_equipment.AddItemToEmptySlot(_itemInWorld.Item))

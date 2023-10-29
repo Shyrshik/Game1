@@ -9,19 +9,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private GameObject _prefabEnemy;
-    private bool _gamePause = false;
     private float _timePrefab;
     public float _timeBotSpawn = 1f;
     private InputСontroller _inputController;
     private GameObject _allEnemies;
     private void Awake()
     {
-        // снимаем с паузы и назначаем управление паузой
-        _inputController = new();
-        _inputController.Player.Pause.performed += context => ContinuePlay();
-        _gamePause = !_gamePause;
-        ContinuePlay();
-
         // переносим персонажа с камерой в начало координат, игра всегда будет начинаться отсюда
         Vector3 startPosition = new(0f, 0f, 0f);
         _player.transform.position = startPosition;
@@ -78,21 +71,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public void ContinuePlay()
-    {
-        if (_gamePause)
-        {
-            Time.timeScale = 1f;
-            _gamePause = false;
-            _gameMenu.SetActive(false);
-        }
-        else
-        {
-            Time.timeScale = 0f;
-            _gamePause = true;
-            _gameMenu.SetActive(true);
-        }
-    }
+    
     public void LoadScene(int number)
     {
         SceneManager.LoadScene(number);
@@ -102,6 +81,4 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-    private void OnEnable() => _inputController.Enable();
-    private void OnDisable() => _inputController.Disable();
 }
