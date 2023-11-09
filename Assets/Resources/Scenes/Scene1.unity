@@ -884,7 +884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -41.860817}
+  m_AnchoredPosition: {x: 0, y: -241.09406}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &322806652
@@ -4166,8 +4166,9 @@ MonoBehaviour:
   _tileWall: {fileID: 11400000, guid: 8341c0c1a86d25e49b392146748e38cf, type: 2}
   _tileMapGround: {fileID: 11400000, guid: 6e6c3d8a90f611c4c938731684acce8f, type: 2}
   _tileMapWall: {fileID: 11400000, guid: 0d9ec72fbb7e0914795d1c4222835b66, type: 2}
-  _sizeMap: 2000
-  _countTiles: 100000
+  _sizeMap: 200
+  _countTiles: 6000
+  _countWalkers: 1
 --- !u!114 &1756321913
 MonoBehaviour:
   m_ObjectHideFlags: 0

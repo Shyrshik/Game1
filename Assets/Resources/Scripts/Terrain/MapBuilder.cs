@@ -17,7 +17,7 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private TileBase _tileMapWall;
     [SerializeField] private int _sizeMap = 10;
     [SerializeField] private int _countTiles = 100;
-    [SerializeField] private int _countWalkers;
+    [SerializeField] private int _countWalkers=1;
     private int _tilesLeft;
     private int _i,_j;
     private readonly Vector3Int[] _tablePositions = { Vector3Int.left , Vector3Int.up , Vector3Int.right , Vector3Int.down };
@@ -57,6 +57,7 @@ public class MapBuilder : MonoBehaviour
 
             //}
             _tilemapGround.SetTile(positionNew, _tileGround);
+            positionWalker[walkerNumber] = positionNew;
             _tilesLeft--;
         }
     }
