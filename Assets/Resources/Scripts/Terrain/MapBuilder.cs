@@ -58,7 +58,7 @@ public class MapBuilder : MonoBehaviour
         // Generate
         while (_tilesLeft > 0)
         {
-            _random = UnityEngine.Random.Range(0, _emptyPositions.Count);
+            _random = UnityEngine.Random.Range(0, emptyPositions.Count);
             positionNew = emptyPositions[_random];
             _tilemapGround.SetTile(positionNew, _tileGround);
             emptyPositions.RemoveAt(_random);
