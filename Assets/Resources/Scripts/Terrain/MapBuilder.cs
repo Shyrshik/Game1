@@ -29,11 +29,76 @@ public class MapBuilder : MonoBehaviour
     {
         _tilesLeft = _countTiles;
         _sizeSelfMap = _sizeMap / 2;
-        RandomPoint();
+        RandomPoint1();
         SetWallAroundGround();
+    }
+    private void RandomPoint1()
+    {
+        // 
+        //caching
+        Vector3Int startPosition = new(0, 0, 0);
+        Vector3Int positionNew;
+        int walkerNumber = 0;
+        List< Vector3Int> emptyPositions = new(_countWalkers*2);
+
+        //Set start platform.
+        FillSquareAroundThePoint(startPosition, 1);
+        List< Vector3Int> startPositions = new(12);
+        startPositions.Add(new(-1, -2, 0));
+        startPositions.Add(new(0, -2, 0));
+        startPositions.Add(new(1, -2, 0));
+        startPositions.Add(new(-1, 2, 0));
+        startPositions.Add(new(0, 2, 0));
+        startPositions.Add(new(1, 2, 0));
+        startPositions.Add(new(-2, -1, 0));
+        startPositions.Add(new(-2, 0, 0));
+        startPositions.Add(new(-2, 1, 0));
+        startPositions.Add(new(2, -1, 0));
+        startPositions.Add(new(2, 0, 0));
+        startPositions.Add(new(2, 1, 0));
+        if (startPositions.Count >= emptyPositions.Capacity)
+        {
+            _j = emptyPositions.Capacity;
+        }
+        else
+        {
+            _j = startPositions.Count;
+        }
+        for (_i = 0; _i < _j; _i++)
+        {
+            _random = UnityEngine.Random.Range(0, startPositions.Count);
+            emptyPositions.Add(startPositions[_random]);
+            startPositions.RemoveAt(_random);
+        }
+
+        // Generate
+        while (_tilesLeft > 0)
+        {
+            _random = UnityEngine.Random.Range(0, emptyPositions.Count);
+            positionNew = emptyPositions[_random];
+            _tilemapGround.SetTile(positionNew, _tileGround);
+            emptyPositions.RemoveAt(_random);
+
+            for (_i = 0; _i < _tablePositions.Length; _i++)
+            {
+                _position = _tablePositions[_i] + positionNew;
+                if (_tilemapGround.GetTile(_position) is null &&
+                    !emptyPositions.Contains(_position))
+                {
+
+                    emptyPositions.Add(_position);
+                }
+            }
+            if (emptyPositions.Count > _countWalkers) 
+            {
+                emptyPositions.RemoveRange(0, emptyPositions.Count - _countWalkers);
+            }
+            _tilesLeft--;
+        }
     }
     private void RandomPoint()
     {
+        // generates a circle with blurred edges
         //caching
         Vector3Int startPosition = new(0, 0, 0);
         Vector3Int positionNew;
