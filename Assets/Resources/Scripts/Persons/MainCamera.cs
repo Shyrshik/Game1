@@ -6,7 +6,7 @@ public class MainCamera : MonoBehaviour
 {
     [SerializeField] private GameObject _trackingObject;
     [SerializeField] private Vector3 _positionCorrect = new(0f, -10f, -6);
-    [SerializeField, Tooltip("Отрицательное значение = Установить автоматически.")] private float _maxDistanceToTrackingObject = -1;
+    [SerializeField, Tooltip("РћС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ = РЈСЃС‚Р°РЅРѕРІРёС‚СЊ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.")] private float _maxDistanceToTrackingObject = -1;
     private Rigidbody2D _rigidBody2D;
     private Moved _trackingObjectMove;
     private Rigidbody2D _trackingObjectRigidBody2D;
@@ -18,7 +18,7 @@ public class MainCamera : MonoBehaviour
         _correct = _positionCorrect;
         _rigidBody2D = GetComponent<Rigidbody2D>();
         if (_maxDistanceToTrackingObject < 0f)
-            //Дождемся загрузки Pixel Perfects, потом корректируем!
+            //Р”РѕР¶РґРµРјСЃСЏ Р·Р°РіСЂСѓР·РєРё Pixel Perfects, РїРѕС‚РѕРј РєРѕСЂСЂРµРєС‚РёСЂСѓРµРј!
             Invoke(nameof(SetAutoDistanceToTrackingObject), 1f);
     }
     private void FixedUpdate()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,14 +17,119 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private TileBase _tileMapWall;
     [SerializeField] private int _sizeMap = 10;
     [SerializeField] private int _countTiles = 100;
+    [SerializeField] private int _CountWalkers;
+    [SerializeField] private int _tilesLeft;
     private void Awake()
     {
+        _tilesLeft = _countTiles;
+        SimpleRandom();
+    }
+    private void MazeWalkers()
+    {
+        //caching
+        int i,x,y;
+        int sizeMap = _sizeMap / 2;
+        Vector3Int startPosition = new(0, 0, 0);
+        Vector3Int positionOld = startPosition;
+        List< Vector3Int> positionWalker = new(_CountWalkers);
+        for (i = 0; i < _CountWalkers; i++)
+        {
+            positionWalker.Add(startPosition);
+        }
+        //Set start platform.
+        FillSquareAroundThePoint(startPosition, 1);
+
+        // Generate
+        while (_tilesLeft > 0)
+        {
+
+            _tilesLeft--;
+        }
+        for (x = 0; x < 5; x++)
+        {
+            positionWalker = new(0, 0, 0);
+            for (y = 0; y < _countTiles / 4; y++)
+            {
+                float random = UnityEngine.Random.Range(0f, 4f);
+                positionOld = positionWalker;
+
+                if (random < 1)
+                {
+                    positionWalker += Vector3Int.left;
+                }
+                else if (random < 2)
+                {
+                    positionWalker += Vector3Int.up;
+                }
+                else if (random < 3)
+                {
+                    positionWalker += Vector3Int.right;
+                }
+                else
+                {
+                    positionWalker += Vector3Int.down;
+                }
+
+                if (math.abs(positionWalker.x) < sizeMap && math.abs(positionWalker.y) < sizeMap)
+                    _tilemapGround.SetTile(positionWalker, _tileGround);
+                else
+                    positionWalker = positionOld;
+            }
+        }
+        TileBase tileFind;
+        for (positionWalker.x = -sizeMap - 1; positionWalker.x < sizeMap + 1; positionWalker.x++)
+        {
+            for (positionWalker.y = -sizeMap - 1; positionWalker.y < sizeMap + 1; positionWalker.y++)
+            {
+                tileFind = _tilemapGround.GetTile(positionWalker);
+                if (tileFind == null)
+                {
+                    continue;
+                }
+                else
+                    _tilemapCollider.SetTile(positionWalker, _tileMapGround);
+                positionOld = positionWalker;
+                int x1 = positionWalker.x + 2;
+                int y1 = positionWalker.y + 2;
+                for (positionWalker.x = positionOld.x - 1; positionWalker.x < x1; positionWalker.x++)
+                {
+
+                    for (positionWalker.y = positionOld.y - 1; positionWalker.y < y1; positionWalker.y++)
+                    {
+                        if (_tilemapGround.GetTile(positionWalker) == null)
+                        {
+                            _tilemapWall.SetTile(positionWalker, _tileWall);
+                            _tilemapWallTransparent.SetTile(positionWalker, _tileWall);
+                            _tilemapCollider.SetTile(positionWalker, _tileMapWall);
+                        }
+                    }
+                }
+                positionWalker = positionOld;
+            }
+        }
+    }
+    private void FillSquareAroundThePoint(Vector3Int pointPosition, int radius)
+    {
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                _tilemapGround.SetTile(new(x, y, pointPosition.z), _tileGround);
+                _tilesLeft--;
+            }
+        }
+    }
+
+
+    private void SimpleRandom()
+    {
+
         int sizeMap = _sizeMap / 2;
         //_tileWall..hideFlags = HideFlags.None
 
         //// генерируем карту
         Vector3Int position = new(0, 0, 0);
-        
+
         _tilemapGround.SetTile(position, _tileGround);
         // создаем площадку 3х3 вокруг персонажа, может там что то будем класть при старте игры
         for (int x = -1; x < 2; x++)
