@@ -17,28 +17,29 @@ public class MapBuilder : MonoBehaviour
     [SerializeField] private TileBase _tileMapWall;
     [SerializeField] private int _sizeMap = 10;
     [SerializeField] private int _countTiles = 100;
-    [SerializeField] private int _CountWalkers;
+    [SerializeField] private int _countWalkers;
     private int _tilesLeft;
-    private int i,j, x,y;
-    private Vector3Int[] tablePositions = { Vector3Int.left , Vector3Int.up , Vector3Int.right , Vector3Int.down };
-    private List<Vector3Int> EmptyPositions = new List<Vector3Int>(4);
-    private int random;
-    private Vector3Int position;
-    int sizeMap;
+    private int _i,_j;
+    private readonly Vector3Int[] _tablePositions = { Vector3Int.left , Vector3Int.up , Vector3Int.right , Vector3Int.down };
+    private readonly List<Vector3Int> _emptyPositions = new(4);
+    private int _random;
+    private Vector3Int _position;
+    private int _sizeSelfMap;
     private void Awake()
     {
         _tilesLeft = _countTiles;
-        int sizeMap = _sizeMap / 2;
-        SimpleRandom();
+        _sizeSelfMap = _sizeMap / 2;
+        MazeWalkers();
+        SetWallAroundGround();
     }
     private void MazeWalkers()
     {
         //caching
         Vector3Int startPosition = new(0, 0, 0);
-        Vector3Int positionNew = startPosition;
+        Vector3Int positionNew;
         int walkerNumber = 0;
-        List< Vector3Int> positionWalker = new(_CountWalkers);
-        for (i = 0; i < _CountWalkers; i++)
+        List< Vector3Int> positionWalker = new(_countWalkers);
+        for (_i = 0; _i < _countWalkers; _i++)
         {
             positionWalker.Add(startPosition);
         }
@@ -59,99 +60,111 @@ public class MapBuilder : MonoBehaviour
             _tilesLeft--;
         }
     }
-    private void SetWallArroundGround() 
+    private void SetWallAroundGround()
     {
-        position = new();
+        _position = new();
         Vector3Int positionNew;
         TileBase tileFind;
-        for (position.x = -sizeMap - 1; position.x < sizeMap + 1; position.x++)
+        for (_position.x = -_sizeSelfMap - 1; _position.x < _sizeSelfMap + 1; _position.x++)
         {
-            for (position.y = -sizeMap - 1; position.y < sizeMap + 1; position.y++)
+            for (_position.y = -_sizeSelfMap - 1; _position.y < _sizeSelfMap + 1; _position.y++)
             {
-                tileFind = _tilemapGround.GetTile(position);
+                tileFind = _tilemapGround.GetTile(_position);
                 if (tileFind == null)
                 {
                     continue;
                 }
                 else
-                    _tilemapCollider.SetTile(position, _tileMapGround);
-                positionNew = position;
-                int x1 = position.x + 2;
-                int y1 = position.y + 2;
-                for (position.x = positionNew.x - 1; position.x < x1; position.x++)
+                    _tilemapCollider.SetTile(_position, _tileMapGround);
+                positionNew = _position;
+                int x1 = _position.x + 2;
+                int y1 = _position.y + 2;
+                for (_position.x = positionNew.x - 1; _position.x < x1; _position.x++)
                 {
 
-                    for (position.y = positionNew.y - 1; position.y < y1; position.y++)
+                    for (_position.y = positionNew.y - 1; _position.y < y1; _position.y++)
                     {
-                        if (_tilemapGround.GetTile(position) == null)
+                        if (_tilemapGround.GetTile(_position) == null)
                         {
-                            _tilemapWall.SetTile(position, _tileWall);
-                            _tilemapWallTransparent.SetTile(position, _tileWall);
-                            _tilemapCollider.SetTile(position, _tileMapWall);
+                            _tilemapWall.SetTile(_position, _tileWall);
+                            _tilemapWallTransparent.SetTile(_position, _tileWall);
+                            _tilemapCollider.SetTile(_position, _tileMapWall);
                         }
                     }
                 }
-                position = positionNew;
+                _position = positionNew;
             }
         }
     }
-    
+
     private Vector3Int GetEmptyTitleSquareMethod(Vector3Int point)
     {
-        EmptyPositions.Clear();
-        for (i = 0; i < 4; i++)
+        _emptyPositions.Clear();
+        for (_i = 0; _i < 4; _i++)
         {
-            position = tablePositions[i] + point;
-            if (_tilemapGround.GetTile(position) is null)
+            _position = _tablePositions[_i] + point;
+            if (_tilemapGround.GetTile(_position) is null)
             {
-                EmptyPositions.Add(position);
+                _emptyPositions.Add(_position);
             }
         }
-        if (EmptyPositions.Count == 1)
+        if (_emptyPositions.Count == 1)
         {
-            return EmptyPositions[0];
+            return _emptyPositions[0];
         }
-        else if (EmptyPositions.Count > 1)
+        else if (_emptyPositions.Count > 1)
         {
-            random = UnityEngine.Random.Range(0, EmptyPositions.Count);
-            return EmptyPositions[random];
+            _random = UnityEngine.Random.Range(0, _emptyPositions.Count);
+            return _emptyPositions[_random];
         }
-        for (j = 1; j < _countTiles; j++)
+        for (_j = 1; _j < _countTiles; _j++)
         {
-            for (i = -j; i < j; i++)
+            for (_i = -_j; _i < _j; _i++)
             {
-                position = point + Vector3Int.left * j;
-                position.y = i;
-                if (_tilemapGround.GetTile(position) is null)
+                _position = point + Vector3Int.left * _j;
+                _position.y = _i;
+                if (_tilemapGround.GetTile(_position) is null)
                 {
-                    return position;
+                    return _position;
                 }
-                position = -position;
-                if (_tilemapGround.GetTile(position) is null)
+                _position = -_position;
+                if (_tilemapGround.GetTile(_position) is null)
                 {
-                    return position;
+                    return _position;
                 }
-                position = point + Vector3Int.down * j;
-                position.x = i;
-                if (_tilemapGround.GetTile(position) is null)
+                _position = point + Vector3Int.down * _j;
+                _position.x = _i;
+                if (_tilemapGround.GetTile(_position) is null)
                 {
-                    return position;
+                    return _position;
                 }
-                position = -position;
-                if (_tilemapGround.GetTile(position) is null)
+                _position = -_position;
+                if (_tilemapGround.GetTile(_position) is null)
                 {
-                    return position;
+                    return _position;
                 }
             }
         }
         return new();
     }
 
+    private void FillSquareAroundThePoint(Vector3Int pointPosition, int radius)
+    {
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                _tilemapGround.SetTile(new(x, y, pointPosition.z), _tileGround);
+                _tilesLeft--;
+            }
+        }
+    }
+
 
     private void SimpleRandom()
     {
 
-        int sizeMap = _sizeMap / 2;
+        int sizeMap = _sizeSelfMap / 2;
         //_tileWall..hideFlags = HideFlags.None
 
         //// генерируем карту
