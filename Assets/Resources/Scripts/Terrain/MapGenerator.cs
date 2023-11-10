@@ -4,30 +4,63 @@ namespace Terrain
 {
     public abstract class MapGenerator : IMapGenerator
     {
-        public Vector2Int StartPosition 
-        { 
+        public Vector2Int StartPosition
+        {
             get => _startPosition;
             private set => _startPosition = value;
         }
         protected Vector2Int _startPosition;
+        public PointType[,] Map
+        {
+            get => _map;
+        }
+        protected PointType[,] _map;
 
-        protected int WidthX;
-        protected int HightY;
-        protected byte[] Map;
-        public enum PointType : byte { asr,jh}
+        protected int MapMaxX;
+        protected int MapMaxY;
+        protected int PointsInstalls;
+        protected int i, j;
         protected void SetWallAroundGround()
         {
         }
-        private void FillSquareAroundThePoint(Vector3Int pointPosition, int radius)
+        protected void FillSquareAroundThePoint(Vector2Int pointPosition, int radius, PointType type, bool CalculateInstalls = true)
         {
-            for (int x = -radius; x <= radius; x++)
+            if (!IsPointInMap(pointPosition))
             {
-                for (int y = -radius; y <= radius; y++)
+                return;
+            }
+            int minX = pointPosition.x - radius;
+            int maxX = pointPosition.x + radius;
+            int minY = pointPosition.y - radius;
+            int maxY = pointPosition.y + radius;
+            minX = minX < 0 ? 0 : minX;
+            maxX = maxX >= MapMaxX ? MapMaxX - 1 : maxX;
+            minY = minY < 0 ? 0 : minY;
+            maxY = maxY >= MapMaxY ? MapMaxY - 1 : maxY;
+            for (i = minX; i <= maxX; i++)
+            {
+                for (j = minY; j <= maxY; j++)
                 {
-                    _tilemapGround.SetTile(new(x, y, pointPosition.z), _tileGround);
-                    _tilesLeft--;
+                    _map[i, j] = type;
+                    if (CalculateInstalls)
+                        PointsInstalls++;
                 }
             }
+        }
+        protected bool IsPointInMap(Vector2Int pointPosition)
+        {
+            return IsPointInMap(pointPosition.x, pointPosition.y);
+        }
+        protected bool IsPointInMap(int x, int y)
+        {
+            if (x < 0 ||
+                x > MapMaxX ||
+                y < 0 ||
+                y > MapMaxY)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
