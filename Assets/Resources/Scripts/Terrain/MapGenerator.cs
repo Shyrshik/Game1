@@ -16,9 +16,11 @@ namespace Terrain
         }
         protected PointType[,] _map;
 
+        protected int CountPoints;
         protected int MapMaxX;
         protected int MapMaxY;
         protected int PointsInstalls;
+        protected int WalkerNumber = 0;
         protected int i, j;
         protected void SetWallAroundGround()
         {
@@ -62,5 +64,6 @@ namespace Terrain
             }
             return true;
         }
+        public abstract void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition);
     }
 }

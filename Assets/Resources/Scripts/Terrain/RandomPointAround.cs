@@ -1,22 +1,24 @@
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 using UnityEngine;
 
 namespace Terrain
 {
     public class RandomPointAround : MapGenerator
     {
-        private void RandomPoint()
+        public override void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition)
         {
             // generates a circle with blurred edges
             //caching
-            Vector3Int startPosition = new(0, 0, 0);
+            _startPosition = startPosition;
+            MapMaxX = worldSize.x;
+            MapMaxY = worldSize.y;
+            countPoints = CountPoints;
+            _map = new PointType[MapMaxX, MapMaxY];
             Vector3Int positionNew;
-            int walkerNumber = 0;
-            List< Vector3Int> emptyPositions = new(_countTiles*2);
+            List< Vector3Int> emptyPositions = new(countPoints*2);
 
             //Set start platform.
-            FillSquareAroundThePoint(startPosition, 1);
+            FillSquareAroundThePoint(startPosition, 1, PointType.AnyGround, true);
             emptyPositions.Add(new(-1, -2, 0));
             emptyPositions.Add(new(0, -2, 0));
             emptyPositions.Add(new(1, -2, 0));
