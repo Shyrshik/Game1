@@ -22,6 +22,11 @@ namespace Terrain
         protected int PointsInstalls;
         protected int WalkerNumber = 0;
         protected int i, j;
+        protected Vector2Int vector;
+        protected int minX ;
+        protected int maxX;
+        protected int minY;
+        protected int maxY;
         protected void SetWallAroundGround()
         {
         }
@@ -31,14 +36,12 @@ namespace Terrain
             {
                 return;
             }
-            int minX = pointPosition.x - radius;
-            int maxX = pointPosition.x + radius;
-            int minY = pointPosition.y - radius;
-            int maxY = pointPosition.y + radius;
-            minX = minX < 0 ? 0 : minX;
-            maxX = maxX >= MapMaxX ? MapMaxX - 1 : maxX;
-            minY = minY < 0 ? 0 : minY;
-            maxY = maxY >= MapMaxY ? MapMaxY - 1 : maxY;
+            minX = pointPosition.x - radius;
+            maxX = pointPosition.x + radius;
+            minY = pointPosition.y - radius;
+            maxY = pointPosition.y + radius;
+            CorrectBorderForMap(ref minX, ref maxX);
+            CorrectBorderForMap(ref minY, ref maxY);
             for (i = minX; i <= maxX; i++)
             {
                 for (j = minY; j <= maxY; j++)
@@ -55,14 +58,23 @@ namespace Terrain
         }
         protected bool IsPointInMap(int x, int y)
         {
-            if (x < 0 ||
-                x > MapMaxX ||
-                y < 0 ||
-                y > MapMaxY)
-            {
-                return false;
-            }
-            return true;
+            return x >= 0 ||
+                x < MapMaxX ||
+                y >= 0 ||
+                y < MapMaxY;
+        }
+        protected void CorrectBorderForMap(ref Vector2Int point)
+        {
+            point.x = point.x < 0 ? 0 : point.x >= MapMaxX ? MapMaxX - 1 : point.x;
+            point.y = point.y < 0 ? 0 : point.y >= MapMaxY ? MapMaxY - 1 : point.y;
+
+        }
+        protected void CorrectBorderForMap(ref int x, ref int y)
+        {
+            vector = new Vector2Int(x, y);
+            CorrectBorderForMap(ref vector);
+            x = vector.x;
+            y = vector.y;
         }
         public abstract void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition);
     }

@@ -1,10 +1,42 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Terrain
 {
     public class RandomPointAround : MapGenerator
     {
+        private List<Vector2Int> result = new List<Vector2Int>(9);
+        private List<Vector2Int> FindInRadius(Vector2Int centralPosition, int radius, List<PointType> pointTypes)
+        {
+            result.Clear();
+            if (!IsPointInMap(centralPosition))
+            {
+                return result;
+            }
+            minX = centralPosition.x - radius;
+            maxX = centralPosition.x + radius;
+            minY = centralPosition.y - radius;
+            maxY = centralPosition.y + radius;
+            CorrectBorderForMap(ref minX, ref maxX);
+            CorrectBorderForMap(ref minY, ref maxY);
+            for (i = minX; i <= maxX; i++)
+            {
+                for (j = minY; j <= maxY; j++)
+                {
+                    if (pointTypes.Contains(_map[i, j]))
+                    {
+                        result.Add(new Vector2Int(i, j));
+                    }
+                }
+            }
+            return result;
+        }
+        private List<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes)
+        {
+
+            return new();
+        }
         public override void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition)
         {
             // generates a circle with blurred edges
