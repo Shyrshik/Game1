@@ -6,23 +6,19 @@ namespace Terrain
 {
     public class RandomPointAround : MapGenerator
     {
-        private List<Vector2Int> result = new List<Vector2Int>(9);
-        private List<Vector2Int> FindInRadius(Vector2Int centralPosition, int radius, List<PointType> pointTypes)
+        private List<Vector2Int> FindAllInRectangularNotSafety(Vector2Int begin, Vector2Int end, List<PointType> pointTypes)
         {
-            result.Clear();
-            if (!IsPointInMap(centralPosition))
+            return FindAllInRectangularNotSafety(begin.x, begin.y, end.x, end.y, pointTypes);
+
+        }
+        private List<Vector2Int> FindAllInRectangularNotSafety(int x1, int y1, int x2, int y2, List<PointType> pointTypes)
+        {
+            List<Vector2Int> result = new List<Vector2Int>(9);
+            CorrectMinMax(ref x1, ref x2);
+            CorrectMinMax(ref y1, ref y2);
+            for (i = x1; i <= x2; i++)
             {
-                return result;
-            }
-            minX = centralPosition.x - radius;
-            maxX = centralPosition.x + radius;
-            minY = centralPosition.y - radius;
-            maxY = centralPosition.y + radius;
-            CorrectBorderForMap(ref minX, ref maxX);
-            CorrectBorderForMap(ref minY, ref maxY);
-            for (i = minX; i <= maxX; i++)
-            {
-                for (j = minY; j <= maxY; j++)
+                for (j = y1; j <= y2; j++)
                 {
                     if (pointTypes.Contains(_map[i, j]))
                     {
@@ -32,6 +28,23 @@ namespace Terrain
             }
             return result;
         }
+        private List<Vector2Int> FindAllInRadius(Vector2Int centralPosition, int radius, List<PointType> pointTypes)
+        {
+            if (!IsPointInMap(centralPosition))
+            {
+                return new();
+            }
+            minX = centralPosition.x - radius;
+            maxX = centralPosition.x + radius;
+            minY = centralPosition.y - radius;
+            maxY = centralPosition.y + radius;
+            CorrectBorderForMap(ref minX, ref minY);
+            CorrectBorderForMap(ref maxX, ref maxY);
+            return FindAllInRectangularNotSafety(minX, minY, maxX, maxY, pointTypes)
+                .Where(v => (v - centralPosition).sqrMagnitude <= radius * radius)
+                .ToList<Vector2Int>();
+        }
+        private List<Vector2Int> FindNearestIn
         private List<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes)
         {
 

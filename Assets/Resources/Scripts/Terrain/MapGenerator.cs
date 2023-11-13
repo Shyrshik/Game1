@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Terrain
@@ -75,6 +76,15 @@ namespace Terrain
             CorrectBorderForMap(ref vector);
             x = vector.x;
             y = vector.y;
+        }
+        protected void CorrectMinMax(ref int nMin, ref int nMax)
+        {
+            if (nMin > nMax)
+            {
+                i = nMin;
+                nMin = nMax;
+                nMax = i;
+            }
         }
         public abstract void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition);
     }
