@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,11 +31,12 @@ namespace Terrain
             }
             return result;
         }
-        private List<Vector2Int> FindAllInRadius(Vector2Int centralPosition, int radius, List<PointType> pointTypes = null)
+        private IOrderedEnumerable<Vector2Int> FindAllInRadius(Vector2Int centralPosition, int radius, List<PointType> pointTypes = null)
         {
             if (!IsPointInMap(centralPosition))
             {
-                return new();
+                //return new Vector2Int[0].OrderBy(x=>x);
+                return (IOrderedEnumerable<Vector2Int>)Enumerable.Empty<Vector2Int>();
             }
             minX = centralPosition.x - radius;
             maxX = centralPosition.x + radius;
@@ -44,20 +46,19 @@ namespace Terrain
             CorrectBorderForMap(ref maxX, ref maxY);
             radius *= radius;
             return FindAllInRectUnsafe(minX, minY, maxX, maxY, pointTypes)
-                .OrderBy(v => (v - centralPosition).sqrMagnitude)
-                .TakeWhile(v => (v - centralPosition).sqrMagnitude <= radius)
-                .ToList<Vector2Int>();
+                .Where(v => (v - centralPosition).sqrMagnitude <= radius)
+                .OrderBy(v => (v - centralPosition).sqrMagnitude);
         }
-        private List<Vector2Int> FindNearest(Vector2Int centralPosition, List<PointType> pointTypes = null)
+        private IOrderedEnumerable<Vector2Int> FindNearest(Vector2Int centralPosition, List<PointType> pointTypes = null)
         {
-            List<Vector2Int>  result;
+            IOrderedEnumerable<Vector2Int>  result;
             j = MapMaxX > MapMaxY ? MapMaxX : MapMaxY;
             j = (int)(j * 1.5f);
             i = 2;
             do
             {
                 result = FindAllInRadius(centralPosition, i, pointTypes);
-                if (result.Count > 0)
+                if (result.Count() > 0)
                 {
                     break;
                 }
@@ -66,29 +67,53 @@ namespace Terrain
             while (i <= j);
             return result;
         }
-        private List<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes = null)
+        private IEnumerable<Vector2Int> FindTerrain(Vector2Int startPoint)
         {
-            List<Vector2Int> allAroundPoint;
-            List<Vector2Int> allAroundTerrain = new List<Vector2Int>(16);
-            PointType terrainType = _map[startPoint.x,startPoint.y];
-            List<Vector2Int> allTerrain = new List<Vector2Int>(16);
-            List<Vector2Int> newPoints = new List<Vector2Int>(16);
-            allTerrain.Add(startPoint);
-            newPoints.Add(startPoint);
+            IEnumerable<Vector2Int> result = new Vector2Int[] { startPoint};
+            List<Vector2Int> newPoints = new List<Vector2Int>(16) {startPoint};
+            List<PointType> terrainType = new List<PointType>(1){ _map[startPoint.x,startPoint.y] };
             Vector2Int point;
-            while (newPoints.Count > 0)
+            do
             {
                 point = newPoints[^1];
+                newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result));
+                result.Union(newPoints);
                 newPoints.Remove(point);
-
-                allAroundPoint = FindAllInRadius(point, 1);
-                allAroundTerrain.AddRange(allAroundPoint.FindAll(v => pointTypes.Contains(_map[v.x, v.y])).ToArray());
-                allAroundTerrain = allAroundTerrain.Distinct().ToList();
-                allTerrain.AddRange(allAroundPoint.FindAll(v => _map[v.x, v.y] == terrainType).ToArray());
-                allTerrain = allTerrain.Distinct().ToList();
-
             }
-            return new();
+            while (newPoints.Count > 0);
+            return result;
+        }
+        private IEnumerable<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes = null)
+        {
+            IEnumerable<Vector2Int> result = new Vector2Int[0]; 
+            //FindTerrain(startPoint)
+            //    .Select(x=> FindAllInRadius(x,1,pointTypes))
+                foreach (Vector2Int point in FindTerrain(startPoint))
+            {
+                result.Union(FindAllInRadius(point, 1, pointTypes));
+            }
+            return result;
+            //IEnumerable<Vector2Int> allAroundPoint;
+            //List<Vector2Int> allAroundTerrain = new List<Vector2Int>(16);
+            //PointType terrainType = _map[startPoint.x,startPoint.y];
+            //List<Vector2Int> allTerrain = new List<Vector2Int>(16);
+            //List<Vector2Int> newPoints = new List<Vector2Int>(16);
+            //allTerrain.Add(startPoint);
+            //newPoints.Add(startPoint);
+            //Vector2Int point;
+            //while (newPoints.Count > 0)
+            //{
+            //    point = newPoints[^1];
+            //    newPoints.Remove(point);
+
+            //    allAroundPoint = FindAllInRadius(point, 1);
+            //    allAroundTerrain.AddRange(allAroundPoint.FindAll(v => pointTypes.Contains(_map[v.x, v.y])).ToArray());
+            //    allAroundTerrain = allAroundTerrain.Distinct().ToList();
+            //    allTerrain.AddRange(allAroundPoint.FindAll(v => _map[v.x, v.y] == terrainType).ToArray());
+            //    allTerrain = allTerrain.Distinct().ToList();
+
+            //}
+            //return Enumerable.Empty<Vector2Int>();
         }
         public override void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition)
         {
