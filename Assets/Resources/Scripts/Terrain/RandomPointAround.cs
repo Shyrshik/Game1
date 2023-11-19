@@ -69,17 +69,17 @@ namespace Terrain
         private IEnumerable<Vector2Int> FindTerrain(Vector2Int startPoint)
         {
             IEnumerable<Vector2Int> result = new Vector2Int[] { startPoint};
-            List<Vector2Int> newPoints = new List<Vector2Int>(16) {startPoint};
+            IEnumerable<Vector2Int> newPoints = new List<Vector2Int>(1) {startPoint};
             List<PointType> terrainType = new List<PointType>(1){ _map[startPoint.x,startPoint.y] };
             Vector2Int point;
             do
             {
-                point = newPoints[^1];
-                newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result));
-                result.Union(newPoints);
-                newPoints.Remove(point);
+                point = newPoints.Last();
+                newPoints = newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result));
+                result = result.Union(newPoints);
+                newPoints = newPoints.Where(x => x != point);
             }
-            while (newPoints.Count > 0);
+            while (newPoints.Count() > 0);
             return result;
         }
         private IEnumerable<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes = null)
@@ -87,7 +87,7 @@ namespace Terrain
             IEnumerable<Vector2Int> result = new Vector2Int[0];
             foreach (Vector2Int point in FindTerrain(startPoint))
             {
-                result.Union(FindAllInRadius(point, 1, pointTypes));
+                result = result.Union(FindAllInRadius(point, 1, pointTypes));
             }
             return result;
         }
@@ -98,7 +98,7 @@ namespace Terrain
             _startPosition = startPosition;
             MapMaxX = worldSize.x;
             MapMaxY = worldSize.y;
-            countPoints = CountPoints;
+            CountPoints = countPoints;
             _map = new PointType[MapMaxX, MapMaxY];
             Vector2Int positionNew;
             List< Vector2Int> emptyPositions = new(countPoints*2);
