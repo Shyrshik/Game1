@@ -30,10 +30,24 @@ namespace Terrain
         private int _sizeSelfMap;
         private void Awake()
         {
+            j
             _tilesLeft = _countTiles;
             _sizeSelfMap = _sizeMap / 2;
-            RandomPoint1();
-            SetWallAroundGround();
+            //RandomPoint1();
+            //SetWallAroundGround();
+            RandomPointAround randomPointAround = new RandomPointAround();
+            Vector3Int correct =- Vector3Int.one* _sizeSelfMap;
+            randomPointAround.Build(Vector2Int.one * _sizeMap, _countTiles,(Vector2Int) correct);
+            for (_i = 0; _i < randomPointAround.Map.GetLength(0); _i++)
+            {
+                for (_j = 0; _j < randomPointAround.Map.GetLength(1); _j++)
+                {
+                    if (randomPointAround.Map[_i, _j] == PointType.AnyGround)
+                    {
+                        _tilemapGround.SetTile(correct + new Vector3Int(_i, _j,0), _tileGround);
+                    }
+                }
+            }
         }
         private void RandomPoint1()
         {

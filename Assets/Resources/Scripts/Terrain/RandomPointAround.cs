@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -85,35 +84,12 @@ namespace Terrain
         }
         private IEnumerable<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, List<PointType> pointTypes = null)
         {
-            IEnumerable<Vector2Int> result = new Vector2Int[0]; 
-            //FindTerrain(startPoint)
-            //    .Select(x=> FindAllInRadius(x,1,pointTypes))
-                foreach (Vector2Int point in FindTerrain(startPoint))
+            IEnumerable<Vector2Int> result = new Vector2Int[0];
+            foreach (Vector2Int point in FindTerrain(startPoint))
             {
                 result.Union(FindAllInRadius(point, 1, pointTypes));
             }
             return result;
-            //IEnumerable<Vector2Int> allAroundPoint;
-            //List<Vector2Int> allAroundTerrain = new List<Vector2Int>(16);
-            //PointType terrainType = _map[startPoint.x,startPoint.y];
-            //List<Vector2Int> allTerrain = new List<Vector2Int>(16);
-            //List<Vector2Int> newPoints = new List<Vector2Int>(16);
-            //allTerrain.Add(startPoint);
-            //newPoints.Add(startPoint);
-            //Vector2Int point;
-            //while (newPoints.Count > 0)
-            //{
-            //    point = newPoints[^1];
-            //    newPoints.Remove(point);
-
-            //    allAroundPoint = FindAllInRadius(point, 1);
-            //    allAroundTerrain.AddRange(allAroundPoint.FindAll(v => pointTypes.Contains(_map[v.x, v.y])).ToArray());
-            //    allAroundTerrain = allAroundTerrain.Distinct().ToList();
-            //    allTerrain.AddRange(allAroundPoint.FindAll(v => _map[v.x, v.y] == terrainType).ToArray());
-            //    allTerrain = allTerrain.Distinct().ToList();
-
-            //}
-            //return Enumerable.Empty<Vector2Int>();
         }
         public override void Build(Vector2Int worldSize, int countPoints, Vector2Int startPosition)
         {
@@ -124,42 +100,34 @@ namespace Terrain
             MapMaxY = worldSize.y;
             countPoints = CountPoints;
             _map = new PointType[MapMaxX, MapMaxY];
-            Vector3Int positionNew;
-            List< Vector3Int> emptyPositions = new(countPoints*2);
+            Vector2Int positionNew;
+            List< Vector2Int> emptyPositions = new(countPoints*2);
+            List<PointType> PointTypeEmpty = new List<PointType>(1) { PointType.Empty };
 
             //Set start platform.
             FillSquareAroundThePoint(startPosition, 1, PointType.AnyGround, true);
-            emptyPositions.Add(new(-1, -2, 0));
-            emptyPositions.Add(new(0, -2, 0));
-            emptyPositions.Add(new(1, -2, 0));
-            emptyPositions.Add(new(-1, 2, 0));
-            emptyPositions.Add(new(0, 2, 0));
-            emptyPositions.Add(new(1, 2, 0));
-            emptyPositions.Add(new(-2, -1, 0));
-            emptyPositions.Add(new(-2, 0, 0));
-            emptyPositions.Add(new(-2, 1, 0));
-            emptyPositions.Add(new(2, -1, 0));
-            emptyPositions.Add(new(2, 0, 0));
-            emptyPositions.Add(new(2, 1, 0));
+            emptyPositions.AddRange(FindAllAroundTerrain(startPosition, PointTypeEmpty));
 
             // Generate
-            while (_tilesLeft > 0)
+            int random;
+            while (PointsInstalls <= countPoints)
             {
-                _random = UnityEngine.Random.Range(0, emptyPositions.Count);
-                positionNew = emptyPositions[_random];
-                _tilemapGround.SetTile(positionNew, _tileGround);
-                emptyPositions.RemoveAt(_random);
-
-                for (_i = 0; _i < _tablePositions.Length; _i++)
-                {
-                    _position = _tablePositions[_i] + positionNew;
-                    if (_tilemapGround.GetTile(_position) is null &&
-                        !emptyPositions.Contains(_position))
-                    {
-                        emptyPositions.Add(_position);
-                    }
-                }
-                _tilesLeft--;
+                random = UnityEngine.Random.Range(0, emptyPositions.Count);
+                positionNew = emptyPositions[random];
+                _map[positionNew.x, positionNew.y] = PointType.AnyGround;
+                //_tilemapGround.SetTile(positionNew, _tileGround);
+                emptyPositions.RemoveAt(random);
+                emptyPositions.Union(FindAllInRadius(positionNew, 1, PointTypeEmpty));
+                //for (i = 0; i < _tablePositions.Length; i++)
+                //{
+                //    _position = _tablePositions[i] + positionNew;
+                //    if (_tilemapGround.GetTile(_position) is null &&
+                //        !emptyPositions.Contains(_position))
+                //    {
+                //        emptyPositions.Add(_position);
+                //    }
+                //}
+                PointsInstalls++;
             }
         }
     }
