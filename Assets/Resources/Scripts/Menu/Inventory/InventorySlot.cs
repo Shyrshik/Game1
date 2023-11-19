@@ -24,9 +24,9 @@ namespace Menu
 
         private Image _image;
 
-        public bool AddItem(Item item)
+        public bool TryAddItem(Item item)
         {
-            if (Slot.AddItem(item))
+            if (Slot.TryAddItem(item))
             {
                 Refresh();
                 return true;
@@ -85,9 +85,9 @@ namespace Menu
             {
                 Item targetItem = target.Item;
                 target.RemoveItem();
-                target.AddItem(Item);
+                target.TryAddItem(Item);
                 RemoveItem();
-                AddItem(targetItem);
+                TryAddItem(targetItem);
             }
             else
             {

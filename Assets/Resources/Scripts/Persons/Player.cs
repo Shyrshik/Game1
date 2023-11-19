@@ -43,14 +43,14 @@ public class Player : MonoBehaviour
         _firstWeapon.OwnerTransform = transform;
         _inputController.Player.FirstWeapon.performed += context => ControlFirstWeapon();
         ControlFirstWeapon();
-        _equipment.LeftWeapon.AddItem(_firstWeapon);
+        _equipment.LeftWeapon.TryAddItem(_firstWeapon);
 
         _secondWeapon = WeaponSpawner.GetRandomWeapon(1);
         _secondWeapon.EnemyLayers = _myEnemies;
         _secondWeapon.OwnerTransform = transform;
         _inputController.Player.SecondWeapon.performed += context => ControlSecondWeapon();
         ControlSecondWeapon();
-        _equipment.RightWeapon.AddItem(_secondWeapon);
+        _equipment.RightWeapon.TryAddItem(_secondWeapon);
 
         _inputController.Player.Run.performed += context => Run();
         _inputController.Player.Run.canceled += context => NotRun();

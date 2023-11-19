@@ -11,7 +11,7 @@ namespace Items
         private SpriteRenderer _spriteRenderer;
         private readonly ISlot _slot = new SlotSimple();
 
-        public bool AddItem(Item item) => _slot.AddItem(item);
+        public bool TryAddItem(Item item) => _slot.TryAddItem(item);
         public bool CanAdd(Item item) => _slot.CanAdd(item);
         public void RemoveItem() => _slot.RemoveItem();
         public void PlayAnimation()

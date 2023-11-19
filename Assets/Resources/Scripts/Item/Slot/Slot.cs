@@ -11,7 +11,7 @@ namespace Items
         protected bool _isEmpty = true;
         public event Action Added;
         public event Action Removed;
-        public bool AddItem(Item item)
+        public bool TryAddItem(Item item)
         {
             if (IsEmpty && (item is not null) && CanAdd(item))
             {
