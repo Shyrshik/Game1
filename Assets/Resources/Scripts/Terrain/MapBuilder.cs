@@ -37,18 +37,19 @@ namespace Terrain
             RandomPointAround randomPointAround = new RandomPointAround();
             Vector3Int correct =- Vector3Int.one* _sizeSelfMap;
             correct.z = 0;
-            randomPointAround.Build(Vector2Int.one * _sizeMap, _countTiles,(Vector2Int) (-correct));
+            randomPointAround.Build(Vector2Int.one * _sizeMap, _countTiles, (Vector2Int)(-correct));
             for (_i = 0; _i < randomPointAround.Map.GetLength(0); _i++)
             {
                 for (_j = 0; _j < randomPointAround.Map.GetLength(1); _j++)
                 {
                     if (randomPointAround.Map[_i, _j] == PointType.AnyGround)
                     {
-                        _tilemapGround.SetTile(correct + new Vector3Int(_i, _j,0), _tileGround);
+                        _tilemapGround.SetTile(correct + new Vector3Int(_i, _j, 0), _tileGround);
                     }
                 }
             }
             SetWallAroundGround();
+            
         }
         private void RandomPoint1()
         {
