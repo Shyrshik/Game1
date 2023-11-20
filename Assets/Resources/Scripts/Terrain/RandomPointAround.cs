@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -69,15 +70,55 @@ namespace Terrain
         private IEnumerable<Vector2Int> FindTerrain(Vector2Int startPoint)
         {
             IEnumerable<Vector2Int> result = new Vector2Int[] { startPoint};
-            IEnumerable<Vector2Int> newPoints = new List<Vector2Int>(1) {startPoint};
+            List<Vector2Int> newPoints = new List<Vector2Int>(1) {startPoint};
             List<PointType> terrainType = new List<PointType>(1){ _map[startPoint.x,startPoint.y] };
             Vector2Int point;
+
+            #region debag1
+            List<Vector2Int> l1;
+            List<Vector2Int> l2;
+            List<Vector2Int>l3;
+            List<Vector2Int>l4;
+            List<Vector2Int>l5;
+            List<Vector2Int>l6;
+            List<Vector2Int>l7;
+            List<Vector2Int>l8;
+            List<Vector2Int>l9;
+            List<Vector2Int>FAIR;
+            List < Vector2Int >EXRez;
+            int ee =0;
+            #endregion
+            int index;
             do
             {
-                point = newPoints.Last();
-                newPoints = newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result));
+                //point = newPoints.Last();
+                //newPoints = newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result));
+                //result = result.Union(newPoints);
+                //newPoints = newPoints.Where(x => x != point);
+                #region debag1
+                index = newPoints.Count-1;
+                point = newPoints[index];
+                l8 = result.ToList();
+                l1 = newPoints.ToList();
+
+
+                FAIR= FindAllInRadius(point, 1, terrainType).ToList();
+                l5 = result.ToList();
+                EXRez = FindAllInRadius(point, 1, terrainType).Except(result).ToList();
+                newPoints.AddRange(FindAllInRadius(point, 1, terrainType).Except(result));
+                 l2 = newPoints.ToList();
+                l6 = result.ToList();
+
                 result = result.Union(newPoints);
-                newPoints = newPoints.Where(x => x != point);
+                l3 = result.ToList();
+
+                newPoints.RemoveAt(index);
+                l4 = newPoints.ToList(); ;
+                l7 = result.ToList();
+                if (ee > 100)
+                    break;
+                ee++;
+                #endregion
             }
             while (newPoints.Count() > 0);
             return result;
