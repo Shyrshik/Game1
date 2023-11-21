@@ -69,17 +69,19 @@ namespace Terrain
         }
         private List<Vector2Int> FindTerrain(Vector2Int startPoint)
         {
-            List<Vector2Int> result = new List<Vector2Int>(1) { startPoint};
-            List<Vector2Int> newPoints = new List<Vector2Int>(result);
-            List<Vector2Int> oldPoints;
+            List<Vector2Int> result = new List<Vector2Int>() { startPoint};
+            IEnumerable<Vector2Int> newPoints = result;
+            IEnumerable<Vector2Int> oldPoints;
             PointType[] terrainType = { _map[startPoint.x,startPoint.y] };
-            Vector2Int point;
             do
             {
-                //point = newPoints[0];
-                //newPoints = newPoints.Union(FindAllInRadius(point, 1, terrainType).Except(result)).ToList();
-                //result = result.Union(newPoints).ToList();
-                //newPoints.RemoveAt(0);
+                oldPoints = newPoints;
+                result = result.Union(oldPoints).ToList();
+                foreach (var p in oldPoints)
+                {
+                    newPoints = newPoints.Union(FindAllInRadius(p, 1, terrainType));
+                }
+                newPoints = newPoints.Except(result).Distinct().ToArray();
             }
             while (newPoints.Count() > 0);
             return result;
@@ -119,7 +121,7 @@ namespace Terrain
                 _map[positionNew.x, positionNew.y] = PointType.AnyGround;
                 //_tilemapGround.SetTile(positionNew, _tileGround);
                 emptyPositions.RemoveAt(random);
-                emptyPositions= emptyPositions.Union(FindAllInRadius(positionNew, 1, PointTypeEmpty)).ToList();
+                emptyPositions = emptyPositions.Union(FindAllInRadius(positionNew, 1, PointTypeEmpty)).ToList();
                 //for (i = 0; i < _tablePositions.Length; i++)
                 //{
                 //    _position = _tablePositions[i] + positionNew;
