@@ -89,7 +89,6 @@ namespace Terrain
                 throw new Exception("Map not building!");
             }
             SetTilesInTilemaps();
-            SetWallAroundGround();
         }
 
         private void SetTilesInTilemaps()
@@ -130,7 +129,7 @@ namespace Terrain
         private bool Generate()
         {
             IMapGenerator mapGenerator = CreateMapGenerator();
-            if (mapGenerator.SetParams(_sizeMap / 2 * Vector2Int.one, _countTiles, _countWalkers) &&
+            if (mapGenerator.SetParams(_sizeMap * Vector2Int.one, _countTiles, _countWalkers) &&
              mapGenerator.Build())
             {
                 Map = mapGenerator;

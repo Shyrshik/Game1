@@ -21,7 +21,7 @@ namespace Terrain
         private TerrainType[,] _map;
         protected int CountPoints { get; private set; }
         protected int WalkerNumber { get; private set; }
-        protected int PointsInstalls;
+        protected int PointsInstalls=0;
         private int MapMaxX;
         private int MapMaxY;
 
@@ -42,6 +42,7 @@ namespace Terrain
             {
                 return false;
             }
+            CountPoints = countPoints;
             _startPosition = worldSize / 2;
             WalkerNumber = walkerNumber;
             MapMaxX = worldSize.x;
@@ -55,14 +56,81 @@ namespace Terrain
             {
                 return false;
             }
-            return ConcreteBuild();
+            return ExceededCountPoints() || ConcreteBuild();
+        }
+        protected bool ExceededCountPoints()
+        {
+            if ((MapMaxX - 2) * (MapMaxY - 2) > CountPoints)
+            {
+                return false;
+            }
+            ConcreteExceededCountPoints();
+            return true;
         }
         public abstract bool ConcreteBuild();
+        protected virtual void ConcreteExceededCountPoints()
+        {
+            for (i = 1; i < MapMaxX - 1; i++)
+            {
+                for (j = 1; j < MapMaxY - 1; j++)
+                {
+                    _map[i, j] = TerrainType.AnyGround;
+                }
+            }
+            for (i = 0; i < MapMaxX; i++)
+            {
+                _map[i, 0] = TerrainType.AnyWall;
+                _map[i, MapMaxY-1] = TerrainType.AnyWall;
+            }
+            for (i = 0; i < MapMaxY; i++)
+            {
+                _map[0, i] = TerrainType.AnyWall;
+                _map[MapMaxX-1, i] = TerrainType.AnyWall;
+            }
+
+        }
 
         #region setPoints
 
-        protected void SetWallAroundGround()
+        protected void SetPointAroundAllAnotherPointsInMap(TerrainType point, IEnumerable<TerrainType> emptyPointTypes,
+            IEnumerable<TerrainType> pointTypes, bool CalculateInstalls = true)
         {
+            if (emptyPointTypes is null ||
+                pointTypes is null)
+            {
+                return;
+            }
+            pointTypes = pointTypes.Where(n => n != point && !emptyPointTypes.Contains(n)).ToArray();
+            emptyPointTypes = emptyPointTypes.Where(n => n != point && !pointTypes.Contains(n)).ToArray();
+            if (emptyPointTypes.Count() < 1 ||
+                pointTypes.Count() < 1)
+            {
+                return;
+            }
+            TerrainType mapPoint;
+            for (int x = 0; x < MapMaxX; x++)
+            {
+                for (int y = 0; y < MapMaxY; y++)
+                {
+                    mapPoint = _map[x, y];
+                    if (!emptyPointTypes.Contains(mapPoint))
+                    {
+                        continue;
+                    }
+                    minX = x - 1;
+                    maxX = x + 1;
+                    minY = y - 1;
+                    maxY = y + 1;
+                    CorrectBorderForMap(ref minX, ref minY);
+                    CorrectBorderForMap(ref maxX, ref maxY);
+                    if (FindAllInRectUnsafe(minX, minY, maxX, maxY, pointTypes).Count() > 0)
+                    {
+                        _map[x, y] = point;
+                        if (CalculateInstalls)
+                            PointsInstalls++;
+                    }
+                }
+            }
         }
         protected void FillSquareAroundThePoint(Vector2Int pointPosition, int radius, TerrainType type, bool CalculateInstalls = true)
         {
@@ -96,10 +164,21 @@ namespace Terrain
         }
         protected bool IsPointInMap(int x, int y)
         {
-            return x >= 0 ||
-                x < MapMaxX ||
-                y >= 0 ||
+            return x >= 0 &&
+                x < MapMaxX &&
+                y >= 0 &&
                 y < MapMaxY;
+        }
+        protected bool IsPointInMapAndNotInBorder(Vector2Int pointPosition)
+        {
+            return IsPointInMapAndNotInBorder(pointPosition.x, pointPosition.y);
+        }
+        protected bool IsPointInMapAndNotInBorder(int x, int y)
+        {
+            return x > 0 &&
+                 x < MapMaxX - 1 &&
+                 y > 0 &&
+                 y < MapMaxY - 1;
         }
         #endregion
 
