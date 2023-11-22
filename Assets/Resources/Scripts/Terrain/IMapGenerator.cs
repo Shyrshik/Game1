@@ -1,7 +1,10 @@
+using UnityEngine;
+
 namespace Terrain
 {
-    public interface IMapGenerator
+    public interface IMapGenerator : IMap
     {
-        PointType[,] Map { get; }
+        public bool SetParams(Vector2Int worldSize, int countPoints, int walkerNumber = 1);
+        public bool Build();
     }
 }

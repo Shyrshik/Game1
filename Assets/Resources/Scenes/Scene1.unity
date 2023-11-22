@@ -884,7 +884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -442.58072}
+  m_AnchoredPosition: {x: 0, y: -607.85876}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &322806652
@@ -4158,17 +4158,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e624870b2ed6cae4ca18b9a2e6b8e6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mapGenerator: 0
+  _sizeMap: 200
+  _countTiles: 7000
+  _countWalkers: 5
   _tilemapGround: {fileID: 340285457}
+  _groundTiles:
+  - <TerrainType>k__BackingField: 1
+    <Tile>k__BackingField: {fileID: 11400000, guid: d8d972f23103be1428981c0c75494f60, type: 2}
   _tilemapWall: {fileID: 299792183}
+  _wallTiles:
+  - <TerrainType>k__BackingField: 2
+    <Tile>k__BackingField: {fileID: 11400000, guid: 8341c0c1a86d25e49b392146748e38cf, type: 2}
   _tilemapWallTransparent: {fileID: 1210684356}
+  _WallTransparentTiles:
+  - <TerrainType>k__BackingField: 2
+    <Tile>k__BackingField: {fileID: 11400000, guid: 8341c0c1a86d25e49b392146748e38cf, type: 2}
   _tilemapCollider: {fileID: 1977502211}
+  _colliderTiles:
+  - <TerrainType>k__BackingField: 1
+    <Tile>k__BackingField: {fileID: 11400000, guid: 6e6c3d8a90f611c4c938731684acce8f, type: 2}
+  - <TerrainType>k__BackingField: 2
+    <Tile>k__BackingField: {fileID: 11400000, guid: 0d9ec72fbb7e0914795d1c4222835b66, type: 2}
   _tileGround: {fileID: 11400000, guid: d8d972f23103be1428981c0c75494f60, type: 2}
   _tileWall: {fileID: 11400000, guid: 8341c0c1a86d25e49b392146748e38cf, type: 2}
   _tileMapGround: {fileID: 11400000, guid: 6e6c3d8a90f611c4c938731684acce8f, type: 2}
   _tileMapWall: {fileID: 11400000, guid: 0d9ec72fbb7e0914795d1c4222835b66, type: 2}
-  _sizeMap: 200
-  _countTiles: 7000
-  _countWalkers: 5
 --- !u!114 &1756321913
 MonoBehaviour:
   m_ObjectHideFlags: 0
