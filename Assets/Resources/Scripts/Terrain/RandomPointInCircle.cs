@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Terrain
 {
-    public class RandomPointAround : MapGenerator
+    public class RandomPointInCircle : MapGenerator
     {
         public override bool ConcreteBuild()
         {
