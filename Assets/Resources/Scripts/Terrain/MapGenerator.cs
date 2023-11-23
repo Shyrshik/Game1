@@ -64,11 +64,11 @@ namespace Terrain
             {
                 return false;
             }
-            ConcreteExceededCountPoints();
-            return true;
+
+            return ConcreteExceededCountPoints();
         }
         public abstract bool ConcreteBuild();
-        protected virtual void ConcreteExceededCountPoints()
+        protected virtual bool ConcreteExceededCountPoints()
         {
             for (i = 1; i < MapMaxX - 1; i++)
             {
@@ -80,14 +80,14 @@ namespace Terrain
             for (i = 0; i < MapMaxX; i++)
             {
                 _map[i, 0] = TerrainType.AnyWall;
-                _map[i, MapMaxY-1] = TerrainType.AnyWall;
+                _map[i, MapMaxY - 1] = TerrainType.AnyWall;
             }
             for (i = 0; i < MapMaxY; i++)
             {
                 _map[0, i] = TerrainType.AnyWall;
-                _map[MapMaxX-1, i] = TerrainType.AnyWall;
+                _map[MapMaxX - 1, i] = TerrainType.AnyWall;
             }
-
+            return true;
         }
 
         #region setPoints
@@ -121,9 +121,7 @@ namespace Terrain
                     maxX = x + 1;
                     minY = y - 1;
                     maxY = y + 1;
-                    CorrectBorderForMap(ref minX, ref minY);
-                    CorrectBorderForMap(ref maxX, ref maxY);
-                    if (FindAllInRectUnsafe(minX, minY, maxX, maxY, pointTypes).Count() > 0)
+                    if (FindAllInRect(minX, minY, maxX, maxY, pointTypes).Count() > 0)
                     {
                         _map[x, y] = point;
                         if (CalculateInstalls)
@@ -235,6 +233,17 @@ namespace Terrain
             }
             return result;
         }
+        protected List<Vector2Int> FindAllInRect(Vector2Int begin, Vector2Int end, IEnumerable<TerrainType> pointTypes = null)
+        {
+            return FindAllInRect(begin.x, begin.y, end.x, end.y, pointTypes);
+
+        }
+        protected List<Vector2Int> FindAllInRect(int x1, int y1, int x2, int y2, IEnumerable<TerrainType> pointTypes = null)
+        {
+            CorrectBorderForMap(ref x1, ref y1);
+            CorrectBorderForMap(ref x2, ref y2);
+            return FindAllInRectUnsafe(x1, y1, x2, y2, pointTypes);
+        }
         protected IOrderedEnumerable<Vector2Int> FindAllInRadius(Vector2Int centralPosition, int radius, IEnumerable<TerrainType> pointTypes = null)
         {
             if (!IsPointInMap(centralPosition))
@@ -290,7 +299,7 @@ namespace Terrain
             while (newPoints.Count() > 0);
             return result;
         }
-        protected IEnumerable<Vector2Int> FindAllAroundTerrain(Vector2Int startPoint, IEnumerable<TerrainType> pointTypes = null)
+        protected IEnumerable<Vector2Int> FindAllAroundAndInsideTerrain(Vector2Int startPoint, IEnumerable<TerrainType> pointTypes = null)
         {
             IEnumerable<Vector2Int> result = new Vector2Int[0];
             foreach (Vector2Int point in FindTerrain(startPoint))
@@ -299,7 +308,52 @@ namespace Terrain
             }
             return result;
         }
+        protected IEnumerable<Vector2Int> NotWork_FindAllAroundTerrain(Vector2Int startPoint, IEnumerable<TerrainType> pointTypes = null)
+        {
+            if (!IsPointInMap(startPoint))
+            {
+                return (IOrderedEnumerable<Vector2Int>)Enumerable.Empty<Vector2Int>();
+            }
+            TerrainType[] terrainType = {_map[startPoint.x, startPoint.y]};
+            for (i = 0; i <= startPoint.x; i++)
+            {
+                if (_map[i, startPoint.y] == terrainType[0])
+                {
+                    startPoint = new(i, startPoint.y);
+                    break;
+                }
+            }
 
+            List<Vector2Int> result = new List<Vector2Int> { startPoint};
+            IEnumerable<Vector2Int> newPoints = result;
+            IEnumerable<Vector2Int> oldPoints;
+            List<Vector2Int> findInRect;
+            do
+            {
+                oldPoints = newPoints;
+                result = result.Union(oldPoints).ToList();
+                foreach (var p in oldPoints)
+                {
+                    findInRect = FindAllInRect(p - Vector2Int.one, p + Vector2Int.one, terrainType);
+                    if (findInRect.Count == 9)
+                    {
+                        continue;
+                    }
+                        newPoints = newPoints.Union(findInRect);
+                }
+                newPoints = newPoints.Except(result).Distinct().ToArray();
+            }
+            while (newPoints.Count() > 0);
+            oldPoints = result;
+            result.Clear();
+            newPoints = result;
+            //IEnumerable<Vector2Int> result = new Vector2Int[0];
+            foreach (Vector2Int point in oldPoints)
+            {
+                newPoints = newPoints.Union(FindAllInRadius(point, 1, pointTypes));
+            }
+            return newPoints;
+        }
         #endregion
 
     }

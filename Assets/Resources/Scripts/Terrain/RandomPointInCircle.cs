@@ -18,7 +18,7 @@ namespace Terrain
 
             //Set start platform.
             FillSquareAroundThePoint(StartPosition, 1, TerrainType.AnyGround, true);
-            emptyPositions.AddRange(FindAllAroundTerrain(StartPosition, PointTypeEmpty));
+            emptyPositions.AddRange(FindAllAroundAndInsideTerrain(StartPosition, PointTypeEmpty));
             emptyPositions = emptyPositions.Where(n => IsPointInMapAndNotInBorder(n)).ToList();
             // Generate
             int random;

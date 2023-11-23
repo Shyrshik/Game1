@@ -6,6 +6,7 @@ namespace Terrain
 {
     public class legacy_Walkers : MapGenerator
     {
+        protected override bool ConcreteExceededCountPoints() => false;
         public override bool ConcreteBuild()
         {
             // generates a circle with blurred edges
