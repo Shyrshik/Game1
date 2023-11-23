@@ -47,6 +47,8 @@ namespace Terrain
         private enum MapGeneratorEnum
         {
             RandomPointInCircle,
+            Walkers,
+
             legacy_Walkers,
         }
         private void OnValidate()
@@ -59,6 +61,16 @@ namespace Terrain
                 throw new Exception("Not set Tilemap in MapBuilder");
             }
 
+        }
+        private IMapGenerator CreateMapGenerator()
+        {
+            return _mapGenerator switch
+            {
+                MapGeneratorEnum.RandomPointInCircle => new RandomPointInCircle(),
+                MapGeneratorEnum.legacy_Walkers => new legacy_Walkers(),
+                MapGeneratorEnum.Walkers => new Walkers(),
+                _ => new RandomPointInCircle(),
+            };
         }
         private void Awake()
         {
@@ -141,14 +153,5 @@ namespace Terrain
             return true;
         }
 
-        private IMapGenerator CreateMapGenerator()
-        {
-            return _mapGenerator switch
-            {
-                MapGeneratorEnum.RandomPointInCircle => new RandomPointInCircle(),
-                MapGeneratorEnum.legacy_Walkers => new legacy_Walkers(),
-                _ => new RandomPointInCircle(),
-            };
-        }
     }
 }

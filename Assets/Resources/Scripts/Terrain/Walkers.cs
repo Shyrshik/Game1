@@ -14,8 +14,11 @@ namespace Terrain
             TerrainType[,] map = Map;
             Vector2Int positionNew;
             List< List< Vector2Int>> emptyPositions = new(WalkerNumber);
-
-            TerrainType[] PointTypeEmpty = null;
+            for(int i = 0; i < WalkerNumber;i++)
+            {
+                emptyPositions.Add(new List<Vector2Int>());
+            }
+            TerrainType[] PointTypeEmpty = new TerrainType[]{TerrainType.Empty};
 
             //Set start platform.
             FillSquareAroundThePoint(StartPosition, 1, TerrainType.AnyGround, true);
@@ -28,11 +31,17 @@ namespace Terrain
                 {
                     if (walker.Count == 0)
                     {
-                        walker.AddRange(FindAllAroundAndInsideTerrain(StartPosition, PointTypeEmpty)
+                        walker.AddRange(FindNearest(StartPosition, PointTypeEmpty)
                             .Where(n => IsPointInMapAndNotInBorder(n)));
+                        if (walker.Count == 0) break;
                     }
                     random = UnityEngine.Random.Range(0, walker.Count);
                     positionNew = walker[random];
+                    if (map[positionNew.x, positionNew.y] == TerrainType.AnyGround)
+                    {
+                        walker.Remove(positionNew);
+                        continue;
+                    }
                     map[positionNew.x, positionNew.y] = TerrainType.AnyGround;
                     PointsInstalls++;
                     walker.Clear();

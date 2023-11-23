@@ -884,7 +884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -792.947}
+  m_AnchoredPosition: {x: 0, y: -802.74066}
   m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &322806652
@@ -4160,8 +4160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapGenerator: 1
   _sizeMap: 200
-  _countTiles: 10000
-  _countWalkers: 3
+  _countTiles: 5000
+  _countWalkers: 1
   _tilemapGround: {fileID: 340285457}
   _groundTiles:
   - <TerrainType>k__BackingField: 1

@@ -265,9 +265,8 @@ namespace Terrain
         protected IOrderedEnumerable<Vector2Int> FindNearest(Vector2Int centralPosition, IEnumerable<TerrainType> pointTypes = null)
         {
             IOrderedEnumerable<Vector2Int>  result;
-            j = MapMaxX > MapMaxY ? MapMaxX : MapMaxY;
-            j = (int)(j * 1.5f);
-            i = 2;
+            int maxValue = MapMaxX > MapMaxY ? MapMaxX : MapMaxY;
+            int i = 2;
             do
             {
                 result = FindAllInRadius(centralPosition, i, pointTypes);
@@ -277,7 +276,7 @@ namespace Terrain
                 }
                 i *= 2;
             }
-            while (i <= j);
+            while (i <= maxValue);
             return result;
         }
         protected List<Vector2Int> FindTerrain(Vector2Int startPoint)
