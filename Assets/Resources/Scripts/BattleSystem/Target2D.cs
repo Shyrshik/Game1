@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/// <summary>
+/// Return Weapon.CoolDown or Weapon.TicTimeAttack
+/// </summary>
+/// <param name="weapon"></param>
+/// <param name="enemyPosition"></param>
+/// <param name="fixTarget"></param>
+/// <returns></returns>
 public static class Target2D
 {
     public static class Get
@@ -143,11 +149,5 @@ public static class Target2D
         Farthest,
         Random
     }
-    /// <summary>
-    /// Return Weapon.CoolDown or Weapon.TicTimeAttack
-    /// </summary>
-    /// <param name="weapon"></param>
-    /// <param name="enemyPosition"></param>
-    /// <param name="fixTarget"></param>
-    /// <returns></returns>
+    
 }
